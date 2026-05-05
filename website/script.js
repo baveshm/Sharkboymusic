@@ -20,6 +20,25 @@ function pickRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
+// ─── Site Loader ────────────────────────────────────────────────────────────
+document.body.classList.add('loading');
+const loaderEl = document.getElementById('site-loader');
+let isLoaded = false;
+function hideLoader() {
+  if (isLoaded) return;
+  isLoaded = true;
+  if (loaderEl) {
+    loaderEl.style.opacity = '0';
+    setTimeout(() => {
+      loaderEl.style.display = 'none';
+      document.body.classList.remove('loading');
+      document.body.classList.add('loaded');
+    }, 500);
+  }
+}
+// Fallback if assets take too long
+setTimeout(hideLoader, 5000);
+
 // ─── Nav scroll effect ────────────────────────────────────────────────────────
 
 window.addEventListener('scroll', () => {
@@ -198,38 +217,53 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbo
 
 // ─── Dynamic asset loader (reads manifest.json) ───────────────────────────────
 
-fetch('assets/manifest.json')
+fetch('assets/manifest.json?v=' + Date.now())
   .then(r => r.json())
   .then(manifest => {
+    let tasksToWait = [];
 
     // ── HERO background (random pick from assets/hero/) ──────────────────────
-    // To change: add/remove images in assets/hero/, re-run generate-manifest.js
     const heroFiles = manifest['hero'] || [];
     if (heroFiles.length) {
       const heroBg  = document.getElementById('heroBg');
       const heroSrc = pickRandom(heroFiles);
-      const img = new Image();
-      img.onload = () => {
-        heroBg.style.backgroundImage = `url('${heroSrc}')`;
-        requestAnimationFrame(() => heroBg.classList.add('loaded'));
-      };
-      img.src = heroSrc;
+      const p = new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => {
+          heroBg.style.backgroundImage = `url('${heroSrc}')`;
+          requestAnimationFrame(() => heroBg.classList.add('loaded'));
+          resolve();
+        };
+        img.onerror = resolve; // Continue even if it fails
+        img.src = heroSrc;
+      });
+      tasksToWait.push(p);
     }
 
     // ── ABOUT photo (replaced by static video) ─────────────────────────
     // The video is now statically embedded in index.html
 
     // ── PHOTO CAROUSEL (all from assets/gallery-photos/) ─────────────────────
-    // To change: add/remove images in assets/gallery-photos/, re-run generate-manifest.js
     const photoFiles = manifest['gallery-photos'] || [];
     if (photoFiles.length) {
-      const slides = photoFiles.map(src => {
+      const slides = photoFiles.map((src, index) => {
         const div = document.createElement('div');
         div.className = 'photo-slide';
         const img = document.createElement('img');
-        img.src = src;
+        
+        if (index < 2) {
+           const p = new Promise(res => {
+             img.onload = res;
+             img.onerror = res;
+             img.src = src;
+           });
+           tasksToWait.push(p);
+        } else {
+           img.src = src;
+           img.loading = 'lazy';
+        }
+
         img.alt = '';
-        img.loading = 'lazy';
         div.appendChild(img);
         return div;
       });
@@ -244,33 +278,38 @@ fetch('assets/manifest.json')
     }
 
     // ── VIDEO REEL (all from assets/gallery-videos/) ──────────────────────────
-    // To change: add/remove videos in assets/gallery-videos/, re-run generate-manifest.js
     const videoFiles = manifest['gallery-videos'] || [];
     if (videoFiles.length) {
-      const slides = videoFiles.map(src => {
+      const slides = videoFiles.map((src, index) => {
         const div = document.createElement('div');
         div.className = 'video-slide';
 
-        // Silent preview video (autoplay muted for thumbnail feel)
         const vid = document.createElement('video');
-        vid.src = src;
         vid.muted = true;
         vid.loop  = true;
         vid.playsInline = true;
         vid.preload = 'metadata';
 
-        // Play silently on hover for preview
-        div.addEventListener('mouseenter', () => vid.play());
+        if (index < 2) {
+           const p = new Promise(res => {
+             vid.onloadedmetadata = res;
+             vid.onerror = res;
+             vid.src = src;
+           });
+           tasksToWait.push(p);
+        } else {
+           vid.src = src;
+        }
+
+        div.addEventListener('mouseenter', () => vid.play().catch(()=>{}));
         div.addEventListener('mouseleave', () => { vid.pause(); vid.currentTime = 0; });
 
-        // Play button overlay
         const overlay = document.createElement('div');
         overlay.className = 'video-play-btn';
         const btn = document.createElement('span');
         btn.innerHTML = '&#9654;';
         overlay.appendChild(btn);
 
-        // Click to open in lightbox fullscreen
         div.addEventListener('click', () => openLightbox(src));
 
         div.appendChild(vid);
@@ -287,8 +326,15 @@ fetch('assets/manifest.json')
       });
     }
 
+    Promise.all(tasksToWait).then(() => {
+      hideLoader();
+    });
+
   })
-  .catch(err => console.warn('Could not load manifest.json — run generate-manifest.js first.', err));
+  .catch(err => {
+    console.warn('Could not load manifest.json — run generate-manifest.js first.', err);
+    hideLoader();
+  });
 
 // ─── Booking form (mailto fallback) ──────────────────────────────────────────
 

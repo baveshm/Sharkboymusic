@@ -179,8 +179,8 @@ a { color: inherit; text-decoration: none; }
 
 /* Real Sharkboy logo PNG (transparent background, white logo) */
 .hero-logo-img {
-  width: clamp(140px, 35vw, 400px); /* 50% smaller, dynamic to screen size */
-  max-height: 15vh; /* Responsive height limit */
+  width: clamp(260px, 65vw, 600px);
+  max-height: 25vh; /* Restore responsive limit */
   object-fit: contain;
   filter: drop-shadow(0 0 30px rgba(255,255,255,0.35));
 }
@@ -374,7 +374,7 @@ a { color: inherit; text-decoration: none; }
 
 /* === CAROUSEL (shared — used for photos AND videos) === */
 #gallery { background: var(--black); padding-bottom: 0; }
-#showreel { background: var(--black); padding-top: 60px; }
+#clips { background: var(--black); padding-top: 60px; }
 
 .carousel-wrap {
   position: relative;
