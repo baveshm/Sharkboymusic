@@ -179,8 +179,8 @@ a { color: inherit; text-decoration: none; }
 
 /* Real Sharkboy logo PNG (transparent background, white logo) */
 .hero-logo-img {
-  width: clamp(280px, 75vw, 800px);
-  max-height: 300px; /* robust limit to prevent extreme scaling issues */
+  width: clamp(140px, 35vw, 400px); /* 50% smaller, dynamic to screen size */
+  max-height: 15vh; /* Responsive height limit */
   object-fit: contain;
   filter: drop-shadow(0 0 30px rgba(255,255,255,0.35));
 }
@@ -239,11 +239,17 @@ a { color: inherit; text-decoration: none; }
   gap: 80px; align-items: center;
 }
 
-.about-image-wrap { position: relative; }
+.about-image-wrap {
+  position: relative;
+  width: 85%; /* Dynamically takes up section of the grid */
+  margin: 0 auto;
+}
 
 /* About photo frame — JS injects <img> inside this */
 .about-video {
-  width: 100%; max-width: 440px; aspect-ratio: 3/4; object-fit: cover;
+  width: 100%; /* Adapts to parent container perfectly */
+  height: auto;
+  aspect-ratio: 3/4; object-fit: cover;
   border-radius: var(--radius);
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -562,6 +568,7 @@ footer { background: var(--black); border-top: 1px solid var(--border); padding:
   #navbar.scrolled { padding: 12px 24px; }
 
   .about-grid { grid-template-columns: 1fr; gap: 48px; }
+  .about-image-wrap { width: 55%; } /* Keep video small on tablet */
   .about-badge { right: 0; }
   .services-grid { grid-template-columns: 1fr; }
   .gigs-grid { grid-template-columns: 1fr 1fr; }
@@ -574,6 +581,7 @@ footer { background: var(--black); border-top: 1px solid var(--border); padding:
 
 @media (max-width: 580px) {
   section { padding: 72px 0; }
+  .about-image-wrap { width: 75%; } /* Fill a bit more on phone, but leave breathing room */
   .gigs-grid { grid-template-columns: 1fr; }
   .hero-ctas { flex-direction: column; align-items: center; }
   .booking-form { padding: 24px 18px; }
