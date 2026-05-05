@@ -17,6 +17,20 @@
     <div style="font-size: 1.5rem; letter-spacing: 0.1em;">LOADING...</div>
     <style>@keyframes spin { to { transform: rotate(360deg); } } body.loaded { overflow: auto; } body.loading { overflow: hidden; }</style>
   </div>
+  <script>
+    // Inline loader fallback to ensure it runs immediately, not waiting for script.js
+    document.body.classList.add('loading');
+    window.__hideLoader = function() {
+      const el = document.getElementById('site-loader');
+      if (el && el.style.display !== 'none') {
+        el.style.opacity = '0';
+        setTimeout(() => { el.style.display = 'none'; document.body.classList.remove('loading'); document.body.classList.add('loaded'); }, 500);
+      }
+    };
+    // Absolute maximum 4 seconds loading screen
+    setTimeout(window.__hideLoader, 4000);
+    window.addEventListener('load', window.__hideLoader);
+  </script>
 
   <!-- NAV -->
   <nav id="navbar">

@@ -21,23 +21,10 @@ function pickRandom(arr) {
 }
 
 // ─── Site Loader ────────────────────────────────────────────────────────────
-document.body.classList.add('loading');
-const loaderEl = document.getElementById('site-loader');
-let isLoaded = false;
+// The actual hideLoader logic is inline in index.html to guarantee it runs fast.
 function hideLoader() {
-  if (isLoaded) return;
-  isLoaded = true;
-  if (loaderEl) {
-    loaderEl.style.opacity = '0';
-    setTimeout(() => {
-      loaderEl.style.display = 'none';
-      document.body.classList.remove('loading');
-      document.body.classList.add('loaded');
-    }, 500);
-  }
+  if (window.__hideLoader) window.__hideLoader();
 }
-// Fallback if assets take too long
-setTimeout(hideLoader, 5000);
 
 // ─── Nav scroll effect ────────────────────────────────────────────────────────
 
