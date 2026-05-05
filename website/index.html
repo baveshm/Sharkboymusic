@@ -44,11 +44,7 @@
        To change: add/remove images in that folder, re-run generate-manifest.js
        ============================================================ -->
   <section id="hero">
-    <!-- Autoplay hero video background (sharkboydraft1.mp4) -->
-    <video class="hero-video" autoplay muted loop playsinline>
-      <source src="assets/static/sharkboydraft1.mp4" type="video/mp4">
-    </video>
-    <!-- Fallback image background injected by JS from assets/hero/ (random pick) -->
+    <!-- Image background injected by JS from assets/hero/ (random pick) -->
     <div class="hero-bg" id="heroBg"></div>
     <div class="hero-overlay"></div>
     <canvas id="waveCanvas"></canvas>
@@ -74,16 +70,14 @@
 
   <!-- ============================================================
        ABOUT
-       Photo: picked randomly from assets/about/
-       To change: add/remove images in assets/about/, re-run generate-manifest.js
        ============================================================ -->
   <section id="about">
     <div class="container about-grid">
       <div class="about-image-wrap">
-        <!-- JS injects the random about photo here -->
-        <div class="about-img-frame" id="aboutImgFrame">
-          <div class="img-loading"></div>
-        </div>
+        <!-- Autoplay video (sharkboydraft1.mp4) -->
+        <video class="about-video" autoplay muted loop playsinline>
+          <source src="assets/static/sharkboydraft1.mp4" type="video/mp4">
+        </video>
         <div class="about-badge">
           <span class="badge-num">6+</span>
           <span class="badge-label">Years Exp.</span>

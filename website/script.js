@@ -216,18 +216,8 @@ fetch('assets/manifest.json')
       img.src = heroSrc;
     }
 
-    // ── ABOUT photo (random pick from assets/about/) ─────────────────────────
-    // To change: add/remove images in assets/about/, re-run generate-manifest.js
-    const aboutFiles = manifest['about'] || [];
-    if (aboutFiles.length) {
-      const frame = document.getElementById('aboutImgFrame');
-      const src   = pickRandom(aboutFiles);
-      frame.innerHTML = '';
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = 'DJ Sharkboy performing';
-      frame.appendChild(img);
-    }
+    // ── ABOUT photo (replaced by static video) ─────────────────────────
+    // The video is now statically embedded in index.html
 
     // ── PHOTO CAROUSEL (all from assets/gallery-photos/) ─────────────────────
     // To change: add/remove images in assets/gallery-photos/, re-run generate-manifest.js
