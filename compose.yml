@@ -1,0 +1,57 @@
+# compose.yml — Sharkboy website stack
+# Run on: Oracle VM (10.0.60.6)
+# Usage:
+#   cp .env.example .env   # fill in values
+#   docker compose up -d
+#
+# TRAFFIC FLOW:
+#   Internet → OPNsense WAN:443 → Traefik LXC (10.0.20.2:443)
+#     → TCP SNI passthrough for sharkboymusic.com
+#     → this host port 8443 → mini-Traefik → nginx → website
+
+services:
+
+  # ─── Static website (Nginx) ────────────────────────────────────────────────
+  # Serves files from ./website/ — the entire DJ Sharkboy site.
+  # Not exposed externally; mini-Traefik routes to it internally.
+  sharkboy-nginx:
+    image: nginx:alpine
+    container_name: sharkboy-nginx
+    restart: unless-stopped
+    volumes:
+      - ./website:/usr/share/nginx/html:ro
+    networks:
+      - sharkboy-net
+    # No ports exposed — only reachable by mini-Traefik on the same network
+
+  # ─── Mini-Traefik (SSL termination for sharkboymusic.com) ─────────────────
+  # Handles HTTPS on port 8443.
+  # Gets wildcard cert via Cloudflare DNS challenge using the sharkboymusic.com token.
+  # The main Traefik LXC at 10.0.20.2 does TCP SNI passthrough to this port.
+  sharkboy-traefik:
+    image: traefik:v3.2
+    container_name: sharkboy-traefik
+    restart: unless-stopped
+    ports:
+      # 8443 → exposed on host, reached via TCP SNI passthrough from main Traefik LXC
+      - "8443:8443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/traefik.yml:/traefik.yml:ro
+      - ./traefik/dynamic:/dynamic:ro
+      # Cert storage — kept as a bind mount so certs survive container rebuilds
+      - ./traefik/acme:/acme
+    environment:
+      # Cloudflare API token for sharkboymusic.com zone (Zone > DNS > Edit)
+      # DO NOT put the actual token here — use .env file
+      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
+    networks:
+      - sharkboy-net
+
+  # DDNS: not needed — sharkboymusic.com is a CNAME to ducky.baveshmohan.com
+  # which OPNsense DDNS already keeps updated with the homelab's public IP.
+
+networks:
+  sharkboy-net:
+    name: sharkboy-net
+    driver: bridge

@@ -1,0 +1,40 @@
+# dynamic/sharkboy.yml — routing config for sharkboymusic.com
+# Loaded automatically by mini-Traefik via the file provider.
+# Changes here take effect without restarting Traefik.
+
+http:
+  routers:
+    # Apex domain — serves the website
+    sharkboy-apex:
+      rule: "Host(`sharkboymusic.com`)"
+      entryPoints: [websecure]
+      service: nginx
+      tls:
+        certResolver: cloudflare
+        domains:
+          - main: "sharkboymusic.com"
+            sans:
+              - "www.sharkboymusic.com"
+
+    # www — permanent redirect to apex
+    sharkboy-www:
+      rule: "Host(`www.sharkboymusic.com`)"
+      entryPoints: [websecure]
+      service: nginx
+      middlewares: [www-to-apex]
+      tls:
+        certResolver: cloudflare
+
+  services:
+    # Nginx container serving the static site
+    nginx:
+      loadBalancer:
+        servers:
+          - url: "http://sharkboy-nginx:80"
+
+  middlewares:
+    www-to-apex:
+      redirectRegex:
+        regex: "^https://www\\.sharkboymusic\\.com/(.*)"
+        replacement: "https://sharkboymusic.com/${1}"
+        permanent: true

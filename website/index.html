@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DJ Sharkboy | Singapore DJ · MC · Event Host</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-logo">
+      <img src="assets/static/sharkboy-logo.png" alt="DJ Sharkboy" class="nav-logo-img" />
+    </div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#gigs">Gigs</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#booking" class="btn-nav">Book Now</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" onclick="closeMobile()">&#10005;</button>
+    <ul>
+      <li><a href="#about" onclick="closeMobile()">About</a></li>
+      <li><a href="#services" onclick="closeMobile()">Services</a></li>
+      <li><a href="#gigs" onclick="closeMobile()">Gigs</a></li>
+      <li><a href="#gallery" onclick="closeMobile()">Gallery</a></li>
+      <li><a href="#booking" onclick="closeMobile()">Book Now</a></li>
+    </ul>
+  </div>
+
+  <!-- ============================================================
+       HERO
+       Background image: picked randomly from assets/hero/
+       To change: add/remove images in that folder, re-run generate-manifest.js
+       ============================================================ -->
+  <section id="hero">
+    <!-- Autoplay hero video background (sharkboydraft1.mp4) -->
+    <video class="hero-video" autoplay muted loop playsinline>
+      <source src="assets/static/sharkboydraft1.mp4" type="video/mp4">
+    </video>
+    <!-- Fallback image background injected by JS from assets/hero/ (random pick) -->
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-overlay"></div>
+    <canvas id="waveCanvas"></canvas>
+
+    <div class="hero-content">
+      <div class="hero-logo-wrap">
+        <img src="assets/static/sharkboy-logo.png" alt="DJ Sharkboy" class="hero-logo-img" />
+      </div>
+      <h1 class="hero-name sr-only">SHARKBOY</h1>
+      <p class="hero-tagline">DJ &middot; MC &middot; Event Host &middot; Singapore</p>
+      <p class="hero-sub">6 Years &middot; Open Format &middot; Corporate to Club</p>
+      <div class="hero-ctas">
+        <a href="#booking" class="btn-primary">Book for Your Event</a>
+        <a href="#gallery" class="btn-ghost">Watch the Reel</a>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ABOUT
+       Photo: picked randomly from assets/about/
+       To change: add/remove images in assets/about/, re-run generate-manifest.js
+       ============================================================ -->
+  <section id="about">
+    <div class="container about-grid">
+      <div class="about-image-wrap">
+        <!-- JS injects the random about photo here -->
+        <div class="about-img-frame" id="aboutImgFrame">
+          <div class="img-loading"></div>
+        </div>
+        <div class="about-badge">
+          <span class="badge-num">6+</span>
+          <span class="badge-label">Years Exp.</span>
+        </div>
+      </div>
+      <div class="about-text">
+        <span class="section-label">About</span>
+        <h2>The Energy Behind<br>Every Event</h2>
+        <p>
+          Xavier Tan — known as <strong>DJ Sharkboy</strong> — is a professional DJ, MC, and event host based in Singapore, with 6 years of open format DJing spanning pop, progressive house, techno, and hardstyle.
+        </p>
+        <p>
+          Beyond the decks, Sharkboy owns every segment of your event — from intimate dinner sets and VIP introductions to full-crowd raves and corporate galas. His ability to read a room makes him as effective in a boardroom as he is in a club.
+        </p>
+        <div class="about-socials">
+          <a href="https://www.instagram.com/sharkboymusic" target="_blank" class="social-pill">&#9654; Instagram</a>
+          <a href="https://www.soundcloud.com/djsharkboy" target="_blank" class="social-pill">&#9654; SoundCloud</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="container">
+      <span class="section-label centered">What I Do</span>
+      <h2 class="section-heading centered">Services</h2>
+      <div class="services-grid">
+
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="18" stroke="currentColor" stroke-width="2.5"/><circle cx="24" cy="24" r="6" fill="currentColor" opacity="0.3"/><circle cx="24" cy="24" r="2.5" fill="currentColor"/></svg>
+          </div>
+          <h3>DJ Sets</h3>
+          <p>Open format sets curated to match your crowd — pop, progressive house, techno, hardstyle, and everything in between.</p>
+          <ul class="service-list">
+            <li>Corporate dinners &amp; galas</li>
+            <li>Club nights &amp; festivals</li>
+            <li>Private parties &amp; VIP events</li>
+          </ul>
+        </div>
+
+        <div class="service-card featured">
+          <div class="service-icon">
+            <svg viewBox="0 0 48 48" fill="none"><rect x="18" y="8" width="12" height="20" rx="6" stroke="currentColor" stroke-width="2.5"/><path d="M10 28c0 7.732 6.268 14 14 14s14-6.268 14-14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/><line x1="24" y1="42" x2="24" y2="46" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3>MC / Host</h3>
+          <p>Professional emcee that keeps your event flowing — VIP introductions, prize presentations, icebreakers, crowd engagement.</p>
+          <ul class="service-list">
+            <li>Corporate events &amp; AGMs</li>
+            <li>Networking &amp; launch nights</li>
+            <li>Community &amp; brand events</li>
+          </ul>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 48 48" fill="none"><path d="M8 36V16l16-8 16 8v20L24 44 8 36Z" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/><path d="M24 44V24M8 16l16 8 16-8" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/></svg>
+          </div>
+          <h3>Event Flow</h3>
+          <p>Full event flow design — seamless transitions between programme phases so every moment lands exactly as intended.</p>
+          <ul class="service-list">
+            <li>Timeline &amp; flow design</li>
+            <li>Soundscape curation</li>
+            <li>On-the-day coordination</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- PAST GIGS -->
+  <section id="gigs">
+    <div class="container">
+      <span class="section-label centered">Track Record</span>
+      <h2 class="section-heading centered">Past Gigs</h2>
+
+      <div class="gigs-tabs">
+        <button class="tab-btn active" data-tab="clubs">Clubs &amp; Festivals</button>
+        <button class="tab-btn" data-tab="corporate">Corporate &amp; Brand</button>
+      </div>
+
+      <div class="tab-content active" id="tab-clubs">
+        <div class="gigs-grid">
+          <div class="gig-card"><div class="gig-info"><span class="gig-tag">Music Festival</span><h4>Ride The Waves Rhythm</h4><p>Kallang Wave Mall</p></div></div>
+          <div class="gig-card"><div class="gig-info"><span class="gig-tag">Festival</span><h4>Snowrave</h4><p>Snow City, Singapore</p></div></div>
+          <div class="gig-card"><div class="gig-info"><span class="gig-tag">Music Festival</span><h4>Episode</h4><p>Gardens by the Bay</p></div></div>
+          <div class="gig-card"><div class="gig-info"><span class="gig-tag">Music Festival</span><h4>Vibe Music Festival</h4><p>Singapore</p></div></div>
+          <div class="gig-card"><div class="gig-info"><span class="gig-tag">Nightclub</span><h4>Yang Nightclub</h4><p>Singapore</p></div></div>
+          <div class="gig-card"><div class="gig-info"><span class="gig-tag">Concert</span><h4>NUS Supernova Concert</h4><p>National University of Singapore</p></div></div>
+          <div class="gig-card"><div class="gig-info"><span class="gig-tag">Nightclub</span><h4>Prism Nightclub</h4><p>Singapore</p></div></div>
+          <div class="gig-card"><div class="gig-info"><span class="gig-tag">Nightclub</span><h4>Ark 11</h4><p>Singapore</p></div></div>
+          <div class="gig-card"><div class="gig-info"><span class="gig-tag">Restaurant</span><h4>Ikigai Riverhouse</h4><p>Singapore</p></div></div>
+        </div>
+        <div class="venue-logos">
+          <span>Snow Rave</span><span>Ark 11</span><span>HighH Club</span><span>Rave Singapore</span>
+          <span>Yang</span><span>Xclusiv</span><span>Prism</span><span>Fate by HaveFun</span>
+          <span>Yacht Luxe</span><span>Ikigai Riverhouse</span><span>Minami</span><span>Mavericks</span>
+        </div>
+      </div>
+
+      <div class="tab-content" id="tab-corporate">
+        <div class="gigs-grid">
+          <div class="gig-card accent"><div class="gig-info"><span class="gig-tag">Luxury Brand</span><h4>Burberry Summer Collection Launch</h4><p>with Yacht Luxe</p></div></div>
+          <div class="gig-card accent"><div class="gig-info"><span class="gig-tag">Media</span><h4>Media Night Launch</h4><p>Cosford Container Park</p></div></div>
+          <div class="gig-card accent"><div class="gig-info"><span class="gig-tag">Fintech</span><h4>Corporate Bonding Night</h4><p>BitGo &middot; via Yacht Luxe</p></div></div>
+          <div class="gig-card accent"><div class="gig-info"><span class="gig-tag">Networking</span><h4>Business Networking Events</h4><p>GrowthLab.sg &middot; Konnection Events</p></div></div>
+          <div class="gig-card accent"><div class="gig-info"><span class="gig-tag">Community</span><h4>Community Events</h4><p>People's Association &middot; PAYM &middot; Kampong Chai Chee</p></div></div>
+          <div class="gig-card accent"><div class="gig-info"><span class="gig-tag">VIP</span><h4>Velvet Affair Networking</h4><p>Singapore</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       GALLERY — PHOTO CAROUSEL
+       Source folder: assets/gallery-photos/
+       Shows ALL images as a draggable/scrollable carousel
+       To add photos: drop any JPG/PNG into assets/gallery-photos/, re-run generate-manifest.js
+       ============================================================ -->
+  <section id="gallery">
+    <div class="container">
+      <span class="section-label centered">Moments</span>
+      <h2 class="section-heading centered">Gallery</h2>
+    </div>
+
+    <div class="carousel-wrap" id="photoCarouselWrap">
+      <button class="carousel-arrow left" id="photoArrowLeft" aria-label="Previous">&#8592;</button>
+      <!-- JS builds photo slides here from assets/gallery-photos/ -->
+      <div class="carousel-track" id="photoTrack"></div>
+      <button class="carousel-arrow right" id="photoArrowRight" aria-label="Next">&#8594;</button>
+    </div>
+    <div class="carousel-dots" id="photoDots"></div>
+  </section>
+
+  <!-- ============================================================
+       SHOWREEL — VIDEO REEL CAROUSEL
+       Source folder: assets/gallery-videos/
+       Shows ALL videos as a scrollable card reel; click to play fullscreen
+       To add videos: drop any MP4/WEBM into assets/gallery-videos/, re-run generate-manifest.js
+       ============================================================ -->
+  <section id="showreel">
+    <div class="container">
+      <span class="section-label centered">Showreel</span>
+      <h2 class="section-heading centered">Watch the Sets</h2>
+    </div>
+
+    <div class="carousel-wrap" id="videoCarouselWrap">
+      <button class="carousel-arrow left" id="videoArrowLeft" aria-label="Previous">&#8592;</button>
+      <!-- JS builds video slides here from assets/gallery-videos/ -->
+      <div class="carousel-track" id="videoTrack"></div>
+      <button class="carousel-arrow right" id="videoArrowRight" aria-label="Next">&#8594;</button>
+    </div>
+    <div class="carousel-dots" id="videoDots"></div>
+  </section>
+
+  <!-- VIDEO LIGHTBOX (shared, controlled by JS) -->
+  <div class="lightbox" id="videoLightbox">
+    <button class="lightbox-close" id="lightboxClose">&#10005;</button>
+    <video id="lightboxVideo" controls playsinline></video>
+  </div>
+
+  <!-- BOOKING -->
+  <section id="booking">
+    <div class="container booking-wrap">
+      <div class="booking-left">
+        <span class="section-label">Get in Touch</span>
+        <h2>Book Sharkboy<br>for Your Event</h2>
+        <p>Whether you need a high-energy DJ set, a polished MC, or full event hosting — reach out and let's make it happen.</p>
+        <div class="booking-contact-items">
+          <a href="mailto:sharkboyrecords@gmail.com" class="contact-item">
+            <span class="contact-icon">✉</span>
+            <span>sharkboyrecords@gmail.com</span>
+          </a>
+          <a href="tel:+6597916968" class="contact-item">
+            <span class="contact-icon">✆</span>
+            <span>+65 9791 6968</span>
+          </a>
+        </div>
+      </div>
+      <div class="booking-right">
+        <form class="booking-form" id="bookingForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your Name" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="your@email.com" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="eventType">Type of Event</label>
+            <select id="eventType" name="eventType" required>
+              <option value="" disabled selected>Select event type</option>
+              <option>Corporate Event / Gala</option>
+              <option>Club Night</option>
+              <option>Music Festival</option>
+              <option>Private Party</option>
+              <option>Brand / Product Launch</option>
+              <option>Community Event</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="eventDate">Event Date</label>
+              <input type="date" id="eventDate" name="eventDate" />
+            </div>
+            <div class="form-group">
+              <label for="service">Service Needed</label>
+              <select id="service" name="service">
+                <option value="" disabled selected>Select service</option>
+                <option>DJ Set</option>
+                <option>MC / Host</option>
+                <option>DJ + MC (Full Package)</option>
+                <option>Event Flow Management</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="message">Tell me more</label>
+            <textarea id="message" name="message" rows="4" placeholder="Venue, duration, vibe, special requirements..."></textarea>
+          </div>
+          <button type="submit" class="btn-primary full-width">Send Enquiry</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container footer-inner">
+      <div class="footer-logo">SHARKBOY</div>
+      <div class="footer-links">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#gigs">Gigs</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#showreel">Showreel</a>
+        <a href="#booking">Book</a>
+      </div>
+      <div class="footer-socials">
+        <a href="https://www.instagram.com/sharkboymusic" target="_blank">Instagram</a>
+        <a href="https://www.soundcloud.com/djsharkboy" target="_blank">SoundCloud</a>
+      </div>
+      <p class="footer-copy">&copy; 2025 DJ Sharkboy &middot; Xavier Tan &middot; Singapore</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

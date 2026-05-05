@@ -1,0 +1,36 @@
+# traefik.yml — Sharkboy mini-Traefik static config
+# Runs on Oracle VM (10.0.60.6), port 8443
+# Handles SSL termination for sharkboymusic.com only.
+# The main Traefik LXC (10.0.20.2) does TCP SNI passthrough to here.
+
+api:
+  dashboard: false
+
+log:
+  level: INFO
+
+# Single entrypoint — port 8443 (NOT 443, which is taken by Wazuh on this host)
+entryPoints:
+  websecure:
+    address: ":8443"
+
+# Cert resolver — uses the sharkboymusic.com Cloudflare token (CF_DNS_API_TOKEN env var)
+# Token must have Zone > DNS > Edit permission on the sharkboymusic.com zone only.
+certificatesResolvers:
+  cloudflare:
+    acme:
+      email: sharkboyrecords@gmail.com
+      storage: /acme/acme.json
+      dnsChallenge:
+        provider: cloudflare
+        # Use Cloudflare's own resolvers to avoid propagation issues
+        resolvers:
+          - "1.1.1.1:53"
+          - "8.8.8.8:53"
+        delayBeforeCheck: 30
+
+# Load routing from the dynamic/ folder (watch for changes)
+providers:
+  file:
+    directory: /dynamic
+    watch: true

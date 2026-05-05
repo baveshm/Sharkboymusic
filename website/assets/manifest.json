@@ -1,0 +1,35 @@
+{
+  "hero": [
+    "assets/hero/hero-crowd-green.png",
+    "assets/hero/hero-decks-blue.jpg",
+    "assets/hero/hero-mic-pink.jpg"
+  ],
+  "about": [
+    "assets/about/about-cap.jpg",
+    "assets/about/about-decks-neon.jpg",
+    "assets/about/about-smile-2.jpg",
+    "assets/about/about-smiling.jpg"
+  ],
+  "gallery-photos": [
+    "assets/gallery-photos/gallery-artistic.jpg",
+    "assets/gallery-photos/gallery-hand-raised.jpg",
+    "assets/gallery-photos/gallery-headphones.jpg",
+    "assets/gallery-photos/gallery-laughing.jpg",
+    "assets/gallery-photos/gallery-leaning.jpg",
+    "assets/gallery-photos/gallery-mic-purple.jpg",
+    "assets/gallery-photos/gallery-moody.jpg",
+    "assets/gallery-photos/gallery-pointing.jpg",
+    "assets/gallery-photos/gallery-shark-1.png",
+    "assets/gallery-photos/gallery-shark-2.png",
+    "assets/gallery-photos/gallery-shark-3.png"
+  ],
+  "gallery-videos": [
+    "assets/gallery-videos/0402.mp4",
+    "assets/gallery-videos/1.mp4",
+    "assets/gallery-videos/2.mp4",
+    "assets/gallery-videos/3.mp4",
+    "assets/gallery-videos/4.mp4",
+    "assets/gallery-videos/5.mp4",
+    "assets/gallery-videos/6.mp4"
+  ]
+}
