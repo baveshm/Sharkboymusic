@@ -68,11 +68,6 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     obs.observe(el);
   });
 
-  const media = document.querySelector('.about-image-wrap');
-  if (media) {
-    media.classList.add('clip-reveal');
-    obs.observe(media);
-  }
 })();
 
 // ─── Subtle hero parallax ────────────────────────────────────────────────────
