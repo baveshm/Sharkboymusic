@@ -1,27 +1,27 @@
 {
   "hero": [
-    "assets/hero/hero-crowd-green.png",
-    "assets/hero/hero-decks-blue.jpg",
-    "assets/hero/hero-mic-pink.jpg"
+    "assets/hero/hero-crowd-green.webp",
+    "assets/hero/hero-decks-blue.webp",
+    "assets/hero/hero-mic-pink.webp"
   ],
   "about": [
-    "assets/about/about-cap.jpg",
-    "assets/about/about-decks-neon.jpg",
-    "assets/about/about-smile-2.jpg",
-    "assets/about/about-smiling.jpg"
+    "assets/about/about-cap.webp",
+    "assets/about/about-decks-neon.webp",
+    "assets/about/about-smile-2.webp",
+    "assets/about/about-smiling.webp"
   ],
   "gallery-photos": [
-    "assets/gallery-photos/gallery-artistic.jpg",
-    "assets/gallery-photos/gallery-hand-raised.jpg",
-    "assets/gallery-photos/gallery-headphones.jpg",
-    "assets/gallery-photos/gallery-laughing.jpg",
-    "assets/gallery-photos/gallery-leaning.jpg",
-    "assets/gallery-photos/gallery-mic-purple.jpg",
-    "assets/gallery-photos/gallery-moody.jpg",
-    "assets/gallery-photos/gallery-pointing.jpg",
-    "assets/gallery-photos/gallery-shark-1.png",
-    "assets/gallery-photos/gallery-shark-2.png",
-    "assets/gallery-photos/gallery-shark-3.png"
+    "assets/gallery-photos/gallery-artistic.webp",
+    "assets/gallery-photos/gallery-hand-raised.webp",
+    "assets/gallery-photos/gallery-headphones.webp",
+    "assets/gallery-photos/gallery-laughing.webp",
+    "assets/gallery-photos/gallery-leaning.webp",
+    "assets/gallery-photos/gallery-mic-purple.webp",
+    "assets/gallery-photos/gallery-moody.webp",
+    "assets/gallery-photos/gallery-pointing.webp",
+    "assets/gallery-photos/gallery-shark-1.webp",
+    "assets/gallery-photos/gallery-shark-2.webp",
+    "assets/gallery-photos/gallery-shark-3.webp"
   ],
   "gallery-videos": [
     "assets/gallery-videos/0402.mp4",
