@@ -243,13 +243,26 @@ fetch('assets/manifest.json?v=' + Date.now())
     // Curate distinct scenes and crops so the gallery does not feel repetitive.
     const preferredPhotoNames = [
       'gallery-orange-performance.jpg',
-      'gallery-shark-1.webp',
+      'gallery-crowd-wide.jpg',
+      'gallery-green-motion.jpg',
+      'gallery-action-wide.jpg',
       'gallery-laughing.webp',
       'gallery-artistic.webp',
       'gallery-mic-purple.webp',
       'gallery-headphones.webp',
-      'gallery-shark-3.webp',
+      'gallery-shark-1.webp',
     ];
+    const photoAltText = {
+      'gallery-orange-performance.jpg': 'DJ Sharkboy performing under orange stage lights',
+      'gallery-crowd-wide.jpg': 'DJ Sharkboy facing the dance floor during a club set',
+      'gallery-green-motion.jpg': 'DJ Sharkboy moving to the music behind the decks',
+      'gallery-action-wide.jpg': 'DJ Sharkboy mixing live with the crowd in front',
+      'gallery-laughing.webp': 'DJ Sharkboy smiling during a live event',
+      'gallery-artistic.webp': 'Creative portrait of DJ Sharkboy',
+      'gallery-mic-purple.webp': 'DJ Sharkboy hosting with a microphone',
+      'gallery-headphones.webp': 'DJ Sharkboy wearing headphones at the decks',
+      'gallery-shark-1.webp': 'DJ Sharkboy performing live',
+    };
     const allPhotoFiles = manifest['gallery-photos'] || [];
     const photoFiles = preferredPhotoNames
       .map(name => allPhotoFiles.find(src => src.endsWith('/' + name)))
@@ -260,20 +273,25 @@ fetch('assets/manifest.json?v=' + Date.now())
         const div = document.createElement('div');
         div.className = 'photo-slide';
         const img = document.createElement('img');
+        const fileName = src.split('/').pop();
+        const markOrientation = () => {
+          div.classList.toggle('is-landscape', img.naturalWidth > img.naturalHeight);
+        };
         
         if (index < 2) {
            const p = new Promise(res => {
-             img.onload = res;
+             img.onload = () => { markOrientation(); res(); };
              img.onerror = res;
              img.src = src;
            });
            tasksToWait.push(p);
         } else {
+           img.addEventListener('load', markOrientation, { once: true });
            img.src = src;
            img.loading = 'lazy';
         }
 
-        img.alt = index === 0 ? 'DJ Sharkboy performing under orange stage lights' : 'DJ Sharkboy at a live event';
+        img.alt = photoAltText[fileName] || 'DJ Sharkboy at a live event';
         div.appendChild(img);
         return div;
       });
