@@ -11,6 +11,7 @@
     "assets/about/about-smiling.webp"
   ],
   "gallery-photos": [
+    "assets/gallery-photos/gallery-orange-performance.jpg",
     "assets/gallery-photos/gallery-artistic.webp",
     "assets/gallery-photos/gallery-hand-raised.webp",
     "assets/gallery-photos/gallery-headphones.webp",
@@ -24,12 +25,10 @@
     "assets/gallery-photos/gallery-shark-3.webp"
   ],
   "gallery-videos": [
-    "assets/gallery-videos/0402.mp4",
-    "assets/gallery-videos/1.mp4",
-    "assets/gallery-videos/2.mp4",
-    "assets/gallery-videos/3.mp4",
-    "assets/gallery-videos/4.mp4",
-    "assets/gallery-videos/5.mp4",
-    "assets/gallery-videos/6.mp4"
+    "assets/gallery-videos/web-01-performance.mp4",
+    "assets/gallery-videos/web-02-prism.mp4",
+    "assets/gallery-videos/web-03-snowrave.mp4",
+    "assets/gallery-videos/web-04-underwater.mp4",
+    "assets/gallery-videos/web-05-godzilla.mp4"
   ]
 }

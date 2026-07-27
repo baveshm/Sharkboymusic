@@ -5,3 +5,11 @@
 *.jpeg filter=lfs diff=lfs merge=lfs -text
 *.png filter=lfs diff=lfs merge=lfs -text
 *.pdf filter=lfs diff=lfs merge=lfs -text
+
+# This optimized gallery image is intentionally small enough for regular Git.
+website/assets/gallery-photos/gallery-orange-performance.jpg -filter -diff -merge -text
+website/assets/gallery-videos/web-01-performance.mp4 -filter -diff -merge -text
+website/assets/gallery-videos/web-02-prism.mp4 -filter -diff -merge -text
+website/assets/gallery-videos/web-03-snowrave.mp4 -filter -diff -merge -text
+website/assets/gallery-videos/web-04-underwater.mp4 -filter -diff -merge -text
+website/assets/gallery-videos/web-05-godzilla.mp4 -filter -diff -merge -text
