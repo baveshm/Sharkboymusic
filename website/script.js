@@ -70,6 +70,39 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 
 })();
 
+// ─── About performance loop ──────────────────────────────────────────────────
+
+(function initAboutVideo() {
+  const video = document.querySelector('.about-video');
+  const wrap = document.querySelector('.about-image-wrap');
+  if (!video || !wrap) return;
+
+  const showVideo = () => wrap.classList.add('is-playing');
+  const showPoster = () => wrap.classList.remove('is-playing');
+  video.addEventListener('playing', showVideo);
+  video.addEventListener('error', showPoster);
+
+  if (!video.paused && video.readyState >= 2) showVideo();
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && document.visibilityState === 'visible') {
+        video.play().catch(showPoster);
+      } else {
+        video.pause();
+      }
+    });
+  }, { threshold: 0.2 });
+
+  observer.observe(wrap);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') video.pause();
+    else if (wrap.getBoundingClientRect().bottom > 0 && wrap.getBoundingClientRect().top < window.innerHeight) {
+      video.play().catch(showPoster);
+    }
+  });
+})();
+
 // ─── Subtle hero parallax ────────────────────────────────────────────────────
 
 if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -190,17 +223,30 @@ function buildCarousel({ trackEl, dotsEl, arrowLeft, arrowRight, slides }) {
 const lightbox     = document.getElementById('videoLightbox');
 const lightboxVid  = document.getElementById('lightboxVideo');
 const lightboxClose = document.getElementById('lightboxClose');
+let lightboxRequest = 0;
 
 function openLightbox(src) {
+  const request = ++lightboxRequest;
+  lightbox.classList.add('open', 'loading');
   lightboxVid.src = src;
-  lightbox.classList.add('open');
-  lightboxVid.play();
+  lightboxVid.load();
+
+  lightboxVid.play()
+    .then(() => {
+      if (request === lightboxRequest) lightbox.classList.remove('loading');
+    })
+    .catch(() => {
+      if (request === lightboxRequest) lightbox.classList.remove('loading');
+    });
 }
 
 function closeLightbox() {
+  lightboxRequest += 1;
   lightbox.classList.remove('open');
+  lightbox.classList.remove('loading');
   lightboxVid.pause();
-  lightboxVid.src = '';
+  lightboxVid.removeAttribute('src');
+  lightboxVid.load();
 }
 
 lightboxClose.addEventListener('click', closeLightbox);
@@ -303,6 +349,14 @@ fetch('assets/manifest.json?v=' + Date.now())
     // ── VIDEO REEL (all from assets/gallery-videos/) ──────────────────────────
     const videoFiles = manifest['gallery-videos'] || [];
     if (videoFiles.length) {
+      const videoPosters = [
+        'assets/gallery-photos/gallery-orange-performance.jpg',
+        'assets/gallery-photos/gallery-green-motion.jpg',
+        'assets/gallery-photos/gallery-crowd-wide.jpg',
+        'assets/gallery-photos/gallery-action-wide.jpg',
+        'assets/gallery-photos/gallery-mic-purple.webp',
+      ];
+
       const slides = videoFiles.map((src, index) => {
         const div = document.createElement('div');
         div.className = 'video-slide';
@@ -311,7 +365,8 @@ fetch('assets/manifest.json?v=' + Date.now())
         vid.muted = true;
         vid.loop  = true;
         vid.playsInline = true;
-        vid.preload = 'metadata';
+        vid.preload = index < 2 ? 'metadata' : 'none';
+        vid.poster = videoPosters[index % videoPosters.length];
 
         if (index < 2) {
            const p = new Promise(res => {
@@ -324,16 +379,40 @@ fetch('assets/manifest.json?v=' + Date.now())
            vid.src = src;
         }
 
-        div.addEventListener('mouseenter', () => vid.play().catch(()=>{}));
-        div.addEventListener('mouseleave', () => { vid.pause(); vid.currentTime = 0; });
+        const startPreview = () => {
+          div.classList.add('is-buffering');
+          vid.play()
+            .then(() => {
+              div.classList.remove('is-buffering');
+              div.classList.add('is-previewing');
+            })
+            .catch(() => div.classList.remove('is-buffering'));
+        };
+        const stopPreview = () => {
+          vid.pause();
+          div.classList.remove('is-buffering', 'is-previewing');
+        };
 
-        const overlay = document.createElement('div');
+        vid.addEventListener('playing', () => {
+          div.classList.remove('is-buffering');
+          div.classList.add('is-previewing');
+        });
+        vid.addEventListener('waiting', () => div.classList.add('is-buffering'));
+        div.addEventListener('mouseenter', startPreview);
+        div.addEventListener('mouseleave', stopPreview);
+        div.addEventListener('focusin', startPreview);
+        div.addEventListener('focusout', stopPreview);
+
+        const overlay = document.createElement('button');
+        overlay.type = 'button';
         overlay.className = 'video-play-btn';
+        overlay.setAttribute('aria-label', `Play performance video ${index + 1}`);
         const btn = document.createElement('span');
+        btn.setAttribute('aria-hidden', 'true');
         btn.innerHTML = '&#9654;';
         overlay.appendChild(btn);
 
-        div.addEventListener('click', () => openLightbox(src));
+        overlay.addEventListener('click', () => openLightbox(src));
 
         div.appendChild(vid);
         div.appendChild(overlay);

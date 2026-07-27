@@ -9,7 +9,7 @@
   <meta name="description" content="DJ Sharkboy, Singapore DJ, MC and event host for clubs, festivals, launches and corporate events." />
   <link rel="icon" href="assets/static/sharkboy-logo.png?v=2" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=11" />
+  <link rel="stylesheet" href="style.css?v=12" />
 </head>
 <body>
 
@@ -94,7 +94,7 @@
     <div class="container about-grid">
       <div class="about-image-wrap">
         <img class="about-poster" src="assets/gallery-photos/gallery-green-motion.jpg" alt="DJ Sharkboy performing behind the decks" />
-        <video class="about-video" autoplay muted loop playsinline preload="metadata" poster="assets/gallery-photos/gallery-green-motion.jpg" aria-label="DJ Sharkboy performing live" onplaying="this.parentElement.classList.add('is-playing')" onpause="this.parentElement.classList.remove('is-playing')">
+        <video class="about-video" autoplay muted loop playsinline preload="auto" poster="assets/gallery-photos/gallery-green-motion.jpg" aria-label="DJ Sharkboy performing live">
           <source src="assets/gallery-videos/web-02-prism.mp4" type="video/mp4">
         </video>
         <div class="about-badge">
@@ -253,8 +253,9 @@
 
   <!-- VIDEO LIGHTBOX (shared, controlled by JS) -->
   <div class="lightbox" id="videoLightbox">
-    <button class="lightbox-close" id="lightboxClose">&#10005;</button>
-    <video id="lightboxVideo" controls playsinline></video>
+    <button class="lightbox-close" id="lightboxClose" aria-label="Close video">&#10005;</button>
+    <p class="lightbox-status" aria-live="polite">Loading video</p>
+    <video id="lightboxVideo" controls playsinline preload="auto"></video>
   </div>
 
   <!-- BOOKING -->
@@ -346,6 +347,6 @@
     </div>
   </footer>
 
-  <script src="script.js?v=4"></script>
+  <script src="script.js?v=5"></script>
 </body>
 </html>
