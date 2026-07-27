@@ -29,17 +29,19 @@ function hideLoader() {
 // ─── Nav scroll effect ────────────────────────────────────────────────────────
 
 window.addEventListener('scroll', () => {
-  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
-});
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 30);
+}, { passive: true });
 
 // ─── Mobile menu ─────────────────────────────────────────────────────────────
 
-document.querySelector('.nav-toggle').addEventListener('click', () => {
-  document.getElementById('mobileMenu').classList.toggle('open');
+document.querySelector('.nav-toggle').addEventListener('click', (event) => {
+  const isOpen = document.getElementById('mobileMenu').classList.toggle('open');
+  event.currentTarget.setAttribute('aria-expanded', String(isOpen));
 });
 
 function closeMobile() {
   document.getElementById('mobileMenu').classList.remove('open');
+  document.querySelector('.nav-toggle').setAttribute('aria-expanded', 'false');
 }
 
 // ─── Gigs tabs ────────────────────────────────────────────────────────────────
@@ -53,43 +55,6 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   });
 });
 
-// ─── Wave canvas animation (hero) ────────────────────────────────────────────
-
-(function initWave() {
-  const canvas = document.getElementById('waveCanvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-
-  function resize() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
-  resize();
-  window.addEventListener('resize', resize);
-
-  const waves = [
-    { y: 0.55, amp: 28, freq: 0.012, speed: 0.018, color: 'rgba(30,106,255,0.2)',  offset: 0 },
-    { y: 0.63, amp: 20, freq: 0.016, speed: 0.024, color: 'rgba(30,106,255,0.13)', offset: 2 },
-    { y: 0.70, amp: 16, freq: 0.020, speed: 0.014, color: 'rgba(255,138,32,0.10)', offset: 4 },
-    { y: 0.50, amp: 12, freq: 0.009, speed: 0.010, color: 'rgba(30,106,255,0.08)', offset: 6 },
-  ];
-
-  let t = 0;
-  function drawWave(w) {
-    const W = canvas.width, H = canvas.height;
-    ctx.beginPath(); ctx.moveTo(0, H);
-    for (let x = 0; x <= W; x += 3) {
-      ctx.lineTo(x, H * w.y + Math.sin(x * w.freq + t * w.speed + w.offset) * w.amp);
-    }
-    ctx.lineTo(W, H); ctx.closePath();
-    ctx.fillStyle = w.color; ctx.fill();
-  }
-
-  (function loop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    waves.forEach(drawWave);
-    t += 1;
-    requestAnimationFrame(loop);
-  })();
-})();
-
 // ─── Scroll reveal ────────────────────────────────────────────────────────────
 
 (function initReveal() {
@@ -97,11 +62,29 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
   }, { threshold: 0.1 });
 
-  document.querySelectorAll('.service-card, .gig-card, .about-grid, .booking-wrap').forEach(el => {
+  document.querySelectorAll('.section-intro, .service-card, .gig-card, .about-text, .section-heading, .booking-wrap').forEach((el, index) => {
     el.classList.add('reveal');
+    el.style.transitionDelay = `${Math.min(index % 3, 2) * 70}ms`;
     obs.observe(el);
   });
+
+  const media = document.querySelector('.about-image-wrap');
+  if (media) {
+    media.classList.add('clip-reveal');
+    obs.observe(media);
+  }
 })();
+
+// ─── Subtle hero parallax ────────────────────────────────────────────────────
+
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  window.addEventListener('scroll', () => {
+    const hero = document.getElementById('hero');
+    const image = document.getElementById('heroBg');
+    if (!hero || !image || window.scrollY > hero.offsetHeight) return;
+    image.style.backgroundPosition = `center calc(50% + ${window.scrollY * 0.08}px)`;
+  }, { passive: true });
+}
 
 // ─── Carousel builder ─────────────────────────────────────────────────────────
 
