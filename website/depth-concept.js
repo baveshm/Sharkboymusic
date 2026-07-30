@@ -3,6 +3,86 @@
   const root = document.documentElement;
   const currentScene = document.querySelector('.scene-current');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const video = document.querySelector('.film-layer video');
+  const soundGate = document.getElementById('soundGate');
+  const enterWithSound = document.getElementById('enterWithSound');
+  const enterSilently = document.getElementById('enterSilently');
+  const soundToggle = document.getElementById('soundToggle');
+  const soundToggleLabel = soundToggle.querySelector('b');
+  let soundEnabled = false;
+  let fadeRequest = 0;
+
+  function fadeVolume(targetVolume, duration = 900, muteWhenDone = false) {
+    if (!video) return;
+    const request = ++fadeRequest;
+    const startVolume = video.volume;
+    const startedAt = Date.now();
+
+    function fade() {
+      if (request !== fadeRequest) return;
+      const elapsed = Math.min(1, (Date.now() - startedAt) / duration);
+      const eased = 1 - Math.pow(1 - elapsed, 3);
+      video.volume = startVolume + (targetVolume - startVolume) * eased;
+      if (elapsed < 1) requestAnimationFrame(fade);
+      else if (muteWhenDone) video.muted = true;
+    }
+
+    requestAnimationFrame(fade);
+  }
+
+  function syncSoundToggle() {
+    soundToggle.setAttribute('aria-pressed', String(soundEnabled));
+    soundToggle.setAttribute('aria-label', soundEnabled ? 'Turn sound off' : 'Turn sound on');
+    soundToggleLabel.textContent = soundEnabled ? 'Sound on' : 'Sound off';
+  }
+
+  function dismissGate() {
+    document.body.classList.add('experience-entered');
+    soundGate.classList.add('dismissed');
+    soundGate.setAttribute('aria-hidden', 'true');
+  }
+
+  function startWithSound() {
+    soundEnabled = true;
+    video.muted = false;
+    video.volume = 0;
+    video.play()
+      .then(() => fadeVolume(0.72, 1400))
+      .catch(() => {
+        soundEnabled = false;
+        video.muted = true;
+      })
+      .finally(syncSoundToggle);
+    dismissGate();
+  }
+
+  function startSilently() {
+    soundEnabled = false;
+    video.muted = true;
+    video.play().catch(() => {});
+    syncSoundToggle();
+    dismissGate();
+  }
+
+  enterWithSound.addEventListener('click', startWithSound);
+  enterSilently.addEventListener('click', startSilently);
+  soundToggle.addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+    if (soundEnabled) {
+      video.muted = false;
+      video.volume = 0;
+      video.play()
+        .then(() => fadeVolume(0.72, 900))
+        .catch(() => {
+          soundEnabled = false;
+          video.muted = true;
+          syncSoundToggle();
+        });
+    } else {
+      fadeVolume(0, 500, true);
+    }
+    syncSoundToggle();
+  });
 
   if (!experience || reduceMotion.matches) return;
 
@@ -64,7 +144,6 @@
   }, { passive: true });
 
   document.addEventListener('visibilitychange', () => {
-    const video = document.querySelector('.film-layer video');
     if (!video) return;
     if (document.hidden) video.pause();
     else video.play().catch(() => {});

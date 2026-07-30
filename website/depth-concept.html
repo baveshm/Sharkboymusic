@@ -9,15 +9,35 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="assets/static/sharkboy-logo.png" type="image/png" />
-  <link rel="stylesheet" href="depth-concept.css?v=1" />
+  <link rel="stylesheet" href="depth-concept.css?v=2" />
 </head>
 <body>
+  <div class="sound-gate" id="soundGate" role="dialog" aria-labelledby="soundGateTitle" aria-describedby="soundGateDescription">
+    <div class="sound-gate-glow" aria-hidden="true"></div>
+    <div class="sound-gate-inner">
+      <img src="assets/static/sharkboy-logo.png" alt="" aria-hidden="true" />
+      <span>Audio experience</span>
+      <h2 id="soundGateTitle">Feel it<br>before you see it.</h2>
+      <p id="soundGateDescription">This experience includes music. Choose how you want to enter.</p>
+      <div class="sound-gate-actions">
+        <button type="button" class="enter-sound" id="enterWithSound">Enter with sound <b>↗</b></button>
+        <button type="button" class="enter-silent" id="enterSilently">Continue silently</button>
+      </div>
+    </div>
+  </div>
+
   <nav class="depth-nav" aria-label="Concept navigation">
     <a class="depth-logo" href="index.html" aria-label="Return to the current Sharkboy website">
       <img src="assets/static/sharkboy-logo.png" alt="Sharkboy" />
     </a>
     <span class="concept-label">Scroll experiment / 01</span>
-    <a class="depth-book" href="index.html#booking">Book Sharkboy <span>↗</span></a>
+    <div class="depth-nav-actions">
+      <button type="button" class="sound-toggle" id="soundToggle" aria-pressed="false" aria-label="Turn sound on">
+        <i aria-hidden="true"><span></span><span></span><span></span><span></span></i>
+        <b>Sound off</b>
+      </button>
+      <a class="depth-book" href="index.html#booking">Book Sharkboy <span>↗</span></a>
+    </div>
   </nav>
 
   <main>
@@ -95,6 +115,6 @@
     </section>
   </main>
 
-  <script src="depth-concept.js?v=1"></script>
+  <script src="depth-concept.js?v=2"></script>
 </body>
 </html>
