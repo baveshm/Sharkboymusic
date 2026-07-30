@@ -10,8 +10,9 @@
   <link rel="icon" href="assets/static/sharkboy-logo.png?v=2" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css?v=12" />
+  <link rel="stylesheet" href="depth-intro.css?v=1" />
 </head>
-<body>
+<body class="intro-locked depth-active">
 
   <!-- LOADING SCREEN -->
   <div id="site-loader" aria-hidden="true">
@@ -32,6 +33,20 @@
     window.addEventListener('load', window.__hideLoader);
   </script>
 
+  <div class="intro-sound-gate" id="introSoundGate" role="dialog" aria-labelledby="introSoundTitle" aria-describedby="introSoundDescription">
+    <div class="intro-sound-glow" aria-hidden="true"></div>
+    <div class="intro-sound-inner">
+      <img src="assets/static/sharkboy-logo.png?v=2" alt="" aria-hidden="true" />
+      <span>Audio experience</span>
+      <h2 id="introSoundTitle">This is better<br>with sound.</h2>
+      <p id="introSoundDescription">Step into a Sharkboy set.</p>
+      <div class="intro-sound-actions">
+        <button type="button" class="intro-enter-sound" id="introEnterSound">Enter with sound <b>↗</b></button>
+        <button type="button" class="intro-enter-silent" id="introEnterSilent">Continue silently</button>
+      </div>
+    </div>
+  </div>
+
   <!-- NAV -->
   <nav id="navbar">
     <a href="#hero" class="nav-logo" aria-label="Sharkboy home">
@@ -46,6 +61,10 @@
     </ul>
     <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
   </nav>
+  <button type="button" class="intro-sound-toggle" id="introSoundToggle" aria-pressed="false" aria-label="Turn sound on">
+    <i aria-hidden="true"><span></span><span></span><span></span><span></span></i>
+    <b>Sound off</b>
+  </button>
 
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
@@ -59,31 +78,65 @@
     </ul>
   </div>
 
-  <!-- ============================================================
-       HERO
-       Background image: picked randomly from assets/hero/
-       To change: add/remove images in that folder, re-run generate-manifest.js
-       ============================================================ -->
-  <section id="hero">
-    <div class="hero-bg" id="heroBg"></div>
-    <div class="hero-overlay"></div>
-    <img src="assets/static/sharkboy-logo.png?v=2" alt="" class="hero-brand-mark" aria-hidden="true" />
+  <!-- CINEMATIC DEPTH INTRO -->
+  <section id="hero" class="integrated-depth">
+    <div class="integrated-stage">
+      <div class="integrated-camera">
+        <div class="integrated-film" aria-hidden="true">
+          <video id="introFilm" autoplay muted loop playsinline preload="auto" poster="assets/gallery-photos/gallery-orange-performance.jpg">
+            <source src="assets/gallery-videos/web-01-performance.mp4" type="video/mp4" />
+          </video>
+        </div>
 
-    <div class="hero-content">
-      <p class="hero-kicker">Singapore / Available worldwide</p>
-      <h1 class="hero-name" aria-label="Sharkboy"><span>SHARK</span><span>BOY</span></h1>
-      <div class="hero-meta">
-        <p class="hero-tagline">DJ · MC · Event Host</p>
-        <p class="hero-sub">Open format energy<br>from corporate to club.</p>
-      </div>
-      <div class="hero-ctas">
-        <a href="#booking" class="btn-primary"><span>Book your event</span><b>↗</b></a>
-        <a href="#clips" class="btn-ghost">Watch the reel <span>↓</span></a>
-      </div>
-    </div>
+        <div class="integrated-wash" aria-hidden="true"></div>
+        <div class="integrated-orb integrated-orb-one" aria-hidden="true"></div>
+        <div class="integrated-orb integrated-orb-two" aria-hidden="true"></div>
+        <div class="integrated-grid" aria-hidden="true"></div>
+        <div class="integrated-type integrated-type-back" aria-hidden="true">SHARK</div>
+        <div class="integrated-type integrated-type-front" aria-hidden="true">BOY</div>
 
-    <div class="hero-scroll">
-      <span>Scroll to explore</span><b>↓</b>
+        <figure class="integrated-frame integrated-frame-one" aria-hidden="true">
+          <img src="assets/gallery-photos/gallery-green-motion.jpg" alt="" />
+        </figure>
+        <figure class="integrated-frame integrated-frame-two" aria-hidden="true">
+          <img src="assets/gallery-photos/gallery-action-wide.jpg" alt="" />
+        </figure>
+        <figure class="integrated-frame integrated-frame-three" aria-hidden="true">
+          <img src="assets/gallery-photos/gallery-crowd-wide.jpg" alt="" />
+        </figure>
+
+        <div class="integrated-hero-copy">
+          <p>Singapore / Available worldwide</p>
+          <h1>I read the room.<br><span>Then I move it.</span></h1>
+          <small>DJ · MC · Event Host</small>
+        </div>
+
+        <div class="integrated-story">
+          <span>01:42 AM</span>
+          <p>One track lands.<br>Everyone gets it.</p>
+        </div>
+
+        <div class="integrated-final">
+          <span>Open format. All energy.</span>
+          <h2>Your crowd.<br>My cue.</h2>
+          <a href="#booking">Book Sharkboy <b>↗</b></a>
+        </div>
+
+        <div class="integrated-handoff" aria-hidden="true">
+          <img src="assets/gallery-photos/gallery-green-motion.jpg" alt="" />
+        </div>
+        <div class="integrated-fog" aria-hidden="true"></div>
+        <div class="integrated-paper" aria-hidden="true"></div>
+      </div>
+
+      <div class="integrated-scroll-guide" aria-hidden="true">
+        <span>Scroll to enter</span>
+        <i><b></b></i>
+        <em>↓</em>
+      </div>
+      <div class="integrated-counter" aria-hidden="true">
+        <span class="integrated-current">01</span><i></i><span>03</span>
+      </div>
     </div>
   </section>
 
@@ -349,6 +402,7 @@
     </div>
   </footer>
 
-  <script src="script.js?v=5"></script>
+  <script src="depth-intro.js?v=1"></script>
+  <script src="script.js?v=6"></script>
 </body>
 </html>

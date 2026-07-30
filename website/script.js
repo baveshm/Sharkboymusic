@@ -262,8 +262,8 @@ fetch('assets/manifest.json?v=' + Date.now())
 
     // ── HERO background (random pick from assets/hero/) ──────────────────────
     const heroFiles = manifest['hero'] || [];
-    if (heroFiles.length) {
-      const heroBg  = document.getElementById('heroBg');
+    const heroBg  = document.getElementById('heroBg');
+    if (heroFiles.length && heroBg) {
       const heroSrc = pickRandom(heroFiles);
       const p = new Promise(resolve => {
         const img = new Image();
