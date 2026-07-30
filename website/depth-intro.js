@@ -20,6 +20,7 @@
   let renderedMouseX = 0;
   let renderedMouseY = 0;
   let frame = 0;
+  let launchTimer = 0;
 
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
   const range = (value, start, end) => clamp((value - start) / (end - start));
@@ -47,11 +48,21 @@
     soundToggleLabel.textContent = soundEnabled ? 'Sound on' : 'Sound off';
   }
 
-  function dismissGate() {
+  function dismissGate(launch = true) {
+    if (launch) window.scrollTo({ top: experience.offsetTop, behavior: 'auto' });
+    document.body.classList.remove('experience-launching');
     document.body.classList.remove('intro-locked');
     document.body.classList.add('experience-entered');
     soundGate.classList.add('dismissed');
     soundGate.setAttribute('aria-hidden', 'true');
+    if (!launch) return;
+    requestAnimationFrame(() => {
+      document.body.classList.add('experience-launching');
+      clearTimeout(launchTimer);
+      launchTimer = window.setTimeout(() => {
+        document.body.classList.remove('experience-launching');
+      }, 3200);
+    });
   }
 
   function startWithSound() {
@@ -68,12 +79,12 @@
     dismissGate();
   }
 
-  function startSilently() {
+  function startSilently(launch = true) {
     soundEnabled = false;
     video.muted = true;
     video.play().catch(() => {});
     syncSoundToggle();
-    dismissGate();
+    dismissGate(launch !== false);
   }
 
   function replayExperience() {
@@ -86,6 +97,7 @@
     target = 0;
     progress = 0;
     document.body.classList.remove('experience-entered');
+    document.body.classList.remove('experience-launching');
     document.body.classList.add('intro-locked', 'depth-active');
     soundGate.classList.remove('dismissed');
     soundGate.setAttribute('aria-hidden', 'false');
@@ -175,6 +187,10 @@
     else video.play().catch(() => {});
   });
 
-  if (window.location.hash && window.location.hash !== '#hero') startSilently();
+  if (window.location.hash && window.location.hash !== '#hero') startSilently(false);
+  else {
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.scrollTo({ top: experience.offsetTop, behavior: 'auto' });
+  }
   readScroll();
 })();
