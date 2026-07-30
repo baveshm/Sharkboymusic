@@ -7,10 +7,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <meta name="description" content="DJ Sharkboy, Singapore DJ, MC and event host for clubs, festivals, launches and corporate events." />
-  <link rel="icon" href="assets/static/sharkboy-logo.png?v=2" type="image/png" />
+  <link rel="icon" href="assets/static/sharkboy-logo.png?v=3" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=12" />
-  <link rel="stylesheet" href="depth-intro.css?v=1" />
+  <link rel="stylesheet" href="style.css?v=13" />
+  <link rel="stylesheet" href="depth-intro.css?v=2" />
 </head>
 <body class="intro-locked depth-active">
 
@@ -36,13 +36,13 @@
   <div class="intro-sound-gate" id="introSoundGate" role="dialog" aria-labelledby="introSoundTitle" aria-describedby="introSoundDescription">
     <div class="intro-sound-glow" aria-hidden="true"></div>
     <div class="intro-sound-inner">
-      <img src="assets/static/sharkboy-logo.png?v=2" alt="" aria-hidden="true" />
-      <span>Audio experience</span>
-      <h2 id="introSoundTitle">This is better<br>with sound.</h2>
-      <p id="introSoundDescription">Step into a Sharkboy set.</p>
+      <img src="assets/static/sharkboy-logo.png?v=3" alt="" aria-hidden="true" />
+      <span>The Sharkboy Experience</span>
+      <h2 id="introSoundTitle">Start with<br>a taste.</h2>
+      <p id="introSoundDescription">A short immersive entrance, cut from a live Sharkboy set.</p>
       <div class="intro-sound-actions">
         <button type="button" class="intro-enter-sound" id="introEnterSound">Enter with sound <b>↗</b></button>
-        <button type="button" class="intro-enter-silent" id="introEnterSilent">Continue silently</button>
+        <button type="button" class="intro-enter-silent" id="introEnterSilent">Enter without sound</button>
       </div>
     </div>
   </div>
@@ -50,13 +50,14 @@
   <!-- NAV -->
   <nav id="navbar">
     <a href="#hero" class="nav-logo" aria-label="Sharkboy home">
-      <img src="assets/static/sharkboy-logo.png?v=2" alt="Sharkboy" />
+      <img src="assets/static/sharkboy-logo.png?v=3" alt="Sharkboy" />
     </a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
       <li><a href="#services">Services</a></li>
       <li><a href="#gigs">Gigs</a></li>
       <li><a href="#gallery">Gallery</a></li>
+      <li><button type="button" class="nav-experience" data-replay-experience>Experience</button></li>
       <li><a href="#booking" class="btn-nav">Start a booking <span>↗</span></a></li>
     </ul>
     <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
@@ -64,6 +65,11 @@
   <button type="button" class="intro-sound-toggle" id="introSoundToggle" aria-pressed="false" aria-label="Turn sound on">
     <i aria-hidden="true"><span></span><span></span><span></span><span></span></i>
     <b>Sound off</b>
+  </button>
+  <button type="button" class="intro-replay-tab" data-replay-experience aria-label="Replay The Sharkboy Experience">
+    <span>A taste</span>
+    <b>The Sharkboy Experience</b>
+    <i aria-hidden="true">↻</i>
   </button>
 
   <!-- MOBILE MENU -->
@@ -74,6 +80,7 @@
       <li><a href="#services" onclick="closeMobile()">Services</a></li>
       <li><a href="#gigs" onclick="closeMobile()">Gigs</a></li>
       <li><a href="#gallery" onclick="closeMobile()">Gallery</a></li>
+      <li><button type="button" data-replay-experience onclick="closeMobile()">The Sharkboy Experience</button></li>
       <li><a href="#booking" onclick="closeMobile()">Book Now</a></li>
     </ul>
   </div>
@@ -402,7 +409,7 @@
     </div>
   </footer>
 
-  <script src="depth-intro.js?v=1"></script>
+  <script src="depth-intro.js?v=2"></script>
   <script src="script.js?v=6"></script>
 </body>
 </html>

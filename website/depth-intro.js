@@ -7,6 +7,7 @@
   const enterSilently = document.getElementById('introEnterSilent');
   const soundToggle = document.getElementById('introSoundToggle');
   const soundToggleLabel = soundToggle.querySelector('b');
+  const replayButtons = document.querySelectorAll('[data-replay-experience]');
   const currentScene = document.querySelector('.integrated-current');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -75,8 +76,27 @@
     dismissGate();
   }
 
+  function replayExperience() {
+    ++fadeRequest;
+    soundEnabled = false;
+    video.muted = true;
+    video.volume = 0.72;
+    video.currentTime = 0;
+    window.scrollTo({ top: experience.offsetTop, behavior: 'auto' });
+    target = 0;
+    progress = 0;
+    document.body.classList.remove('experience-entered');
+    document.body.classList.add('intro-locked', 'depth-active');
+    soundGate.classList.remove('dismissed');
+    soundGate.setAttribute('aria-hidden', 'false');
+    syncSoundToggle();
+    render();
+    requestAnimationFrame(() => enterWithSound.focus());
+  }
+
   enterWithSound.addEventListener('click', startWithSound);
   enterSilently.addEventListener('click', startSilently);
+  replayButtons.forEach(button => button.addEventListener('click', replayExperience));
   soundToggle.addEventListener('click', () => {
     soundEnabled = !soundEnabled;
     if (soundEnabled) {
