@@ -61,7 +61,7 @@
       clearTimeout(launchTimer);
       launchTimer = window.setTimeout(() => {
         document.body.classList.remove('experience-launching');
-      }, 3200);
+      }, 1800);
     });
   }
 
@@ -140,8 +140,8 @@
     renderedMouseX += (mouseX - renderedMouseX) * 0.08;
     renderedMouseY += (mouseY - renderedMouseY) * 0.08;
 
-    const intro = 1 - range(progress, 0.12, 0.32);
-    const story = range(progress, 0.22, 0.42) * (1 - range(progress, 0.58, 0.74));
+    const intro = 1 - range(progress, 0.1, 0.24);
+    const story = range(progress, 0.27, 0.43) * (1 - range(progress, 0.58, 0.72));
     const handoff = range(progress, 0.84, 0.98);
     const final = range(progress, 0.64, 0.82) * (1 - range(progress, 0.87, 0.96));
     const paperY = `${(1 - range(progress, 0.91, 1)) * 100}%`;
