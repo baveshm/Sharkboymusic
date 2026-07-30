@@ -25,6 +25,17 @@
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
   const range = (value, start, end) => clamp((value - start) / (end - start));
 
+  function jumpToElement(element) {
+    const previousScrollBehavior = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'auto';
+    element.scrollIntoView({ block: 'start' });
+    root.style.scrollBehavior = previousScrollBehavior;
+  }
+
+  function jumpToExperienceStart() {
+    jumpToElement(experience);
+  }
+
   function fadeVolume(targetVolume, duration = 900, muteWhenDone = false) {
     const request = ++fadeRequest;
     const startVolume = video.volume;
@@ -49,7 +60,7 @@
   }
 
   function dismissGate(launch = true) {
-    if (launch) window.scrollTo({ top: experience.offsetTop, behavior: 'auto' });
+    if (launch) jumpToExperienceStart();
     document.body.classList.remove('experience-launching');
     document.body.classList.remove('intro-locked');
     document.body.classList.add('experience-entered');
@@ -93,7 +104,7 @@
     video.muted = true;
     video.volume = 0.72;
     video.currentTime = 0;
-    window.scrollTo({ top: experience.offsetTop, behavior: 'auto' });
+    jumpToExperienceStart();
     target = 0;
     progress = 0;
     document.body.classList.remove('experience-entered');
@@ -130,7 +141,7 @@
   function readScroll() {
     const max = experience.offsetHeight - window.innerHeight;
     target = reduceMotion.matches ? 0 : clamp((window.scrollY - experience.offsetTop) / max);
-    const introEnd = experience.offsetTop + max + 20;
+    const introEnd = experience.offsetTop + experience.offsetHeight - 82;
     document.body.classList.toggle('depth-active', window.scrollY < introEnd);
     if (!frame) frame = requestAnimationFrame(render);
   }
@@ -140,9 +151,9 @@
     renderedMouseX += (mouseX - renderedMouseX) * 0.08;
     renderedMouseY += (mouseY - renderedMouseY) * 0.08;
 
-    const intro = 1 - range(progress, 0.1, 0.24);
-    const story = range(progress, 0.27, 0.43) * (1 - range(progress, 0.58, 0.72));
-    const final = range(progress, 0.64, 0.82) * (1 - range(progress, 0.92, 0.99));
+    const intro = 1 - range(progress, 0.08, 0.2);
+    const story = range(progress, 0.18, 0.38) * (1 - range(progress, 0.54, 0.64));
+    const final = range(progress, 0.62, 0.8);
 
     root.style.setProperty('--dp', progress.toFixed(4));
     root.style.setProperty('--d-intro', intro.toFixed(4));
@@ -183,10 +194,19 @@
     else video.play().catch(() => {});
   });
 
-  if (window.location.hash && window.location.hash !== '#hero') startSilently(false);
-  else {
+  if (window.location.hash && window.location.hash !== '#hero') {
+    const deepLinkTarget = document.getElementById(window.location.hash.slice(1));
+    startSilently(false);
+    if (deepLinkTarget) {
+      const landOnDeepLink = () => jumpToElement(deepLinkTarget);
+      requestAnimationFrame(landOnDeepLink);
+      if (document.readyState !== 'complete') {
+        window.addEventListener('load', landOnDeepLink, { once: true });
+      }
+    }
+  } else {
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-    window.scrollTo({ top: experience.offsetTop, behavior: 'auto' });
+    jumpToExperienceStart();
   }
   readScroll();
 })();
