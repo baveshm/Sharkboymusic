@@ -142,16 +142,12 @@
 
     const intro = 1 - range(progress, 0.1, 0.24);
     const story = range(progress, 0.27, 0.43) * (1 - range(progress, 0.58, 0.72));
-    const handoff = range(progress, 0.84, 0.98);
-    const final = range(progress, 0.64, 0.82) * (1 - range(progress, 0.87, 0.96));
-    const paperY = `${(1 - range(progress, 0.91, 1)) * 100}%`;
+    const final = range(progress, 0.64, 0.82) * (1 - range(progress, 0.92, 0.99));
 
     root.style.setProperty('--dp', progress.toFixed(4));
     root.style.setProperty('--d-intro', intro.toFixed(4));
     root.style.setProperty('--d-story', story.toFixed(4));
     root.style.setProperty('--d-final', final.toFixed(4));
-    root.style.setProperty('--d-hand', handoff.toFixed(4));
-    root.style.setProperty('--d-paper-y', paperY);
     root.style.setProperty('--d-mx', renderedMouseX.toFixed(3));
     root.style.setProperty('--d-my', renderedMouseY.toFixed(3));
 
