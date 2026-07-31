@@ -11,6 +11,8 @@
   const currentScene = document.querySelector('.integrated-current');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
+  document.querySelector('.integrated-story > span')?.remove();
+
   let soundEnabled = false;
   let fadeRequest = 0;
   let target = 0;
