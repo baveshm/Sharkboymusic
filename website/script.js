@@ -101,6 +101,39 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
       video.play().catch(showPoster);
     }
   });
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  let pointerFrame = 0;
+
+  function resetInteraction() {
+    wrap.style.setProperty('--about-x', '50%');
+    wrap.style.setProperty('--about-y', '50%');
+    wrap.style.setProperty('--about-tx', '0px');
+    wrap.style.setProperty('--about-ty', '0px');
+    wrap.style.setProperty('--about-rx', '0deg');
+    wrap.style.setProperty('--about-ry', '0deg');
+  }
+
+  wrap.addEventListener('pointermove', event => {
+    if (reduceMotion.matches || !finePointer.matches) return;
+    cancelAnimationFrame(pointerFrame);
+    pointerFrame = requestAnimationFrame(() => {
+      const rect = wrap.getBoundingClientRect();
+      const x = Math.max(0, Math.min(1, (event.clientX - rect.left) / rect.width));
+      const y = Math.max(0, Math.min(1, (event.clientY - rect.top) / rect.height));
+      const dx = x - 0.5;
+      const dy = y - 0.5;
+      wrap.style.setProperty('--about-x', `${(x * 100).toFixed(1)}%`);
+      wrap.style.setProperty('--about-y', `${(y * 100).toFixed(1)}%`);
+      wrap.style.setProperty('--about-tx', `${(-dx * 14).toFixed(2)}px`);
+      wrap.style.setProperty('--about-ty', `${(-dy * 10).toFixed(2)}px`);
+      wrap.style.setProperty('--about-rx', `${(-dy * 2.4).toFixed(2)}deg`);
+      wrap.style.setProperty('--about-ry', `${(dx * 3).toFixed(2)}deg`);
+    });
+  }, { passive: true });
+
+  wrap.addEventListener('pointerleave', resetInteraction);
 })();
 
 // ─── Subtle hero parallax ────────────────────────────────────────────────────
