@@ -12,9 +12,9 @@ website/assets/gallery-photos/gallery-green-motion.jpg -filter -diff -merge -tex
 website/assets/gallery-photos/gallery-action-wide.jpg -filter -diff -merge -text
 website/assets/gallery-photos/gallery-crowd-wide.jpg -filter -diff -merge -text
 website/assets/gallery-videos/web-01-performance.mp4 -filter -diff -merge -text
+website/assets/gallery-videos/web-00-sharkboydraft1.mp4 -filter -diff -merge -text
 website/assets/gallery-videos/web-02-prism.mp4 -filter -diff -merge -text
 website/assets/gallery-videos/web-03-snowrave.mp4 -filter -diff -merge -text
 website/assets/gallery-videos/web-04-underwater.mp4 -filter -diff -merge -text
 website/assets/gallery-videos/web-05-godzilla.mp4 -filter -diff -merge -text
-website/assets/gallery-videos/web-06-sharkboydraft1.mp4 -filter -diff -merge -text
 website/assets/static/sharkboy-logo.png -filter -diff -merge -text

@@ -42,7 +42,16 @@ for (const [folder, config] of Object.entries(DYNAMIC_FOLDERS)) {
   const files = fs.readdirSync(dir)
     .filter(f => {
       const ext = f.split('.').pop().toLowerCase();
-      return config.types.includes(ext) && !f.startsWith('.');
+      if (!config.types.includes(ext) || f.startsWith('.')) return false;
+
+      const fullPath = path.join(dir, f);
+      const stats = fs.statSync(fullPath);
+      if (stats.size < 256) {
+        const header = fs.readFileSync(fullPath, 'utf8');
+        if (header.startsWith('version https://git-lfs.github.com/spec/v1')) return false;
+      }
+
+      return true;
     })
     .sort()
     .map(f => `assets/${folder}/${f}`);

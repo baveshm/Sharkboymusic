@@ -12,27 +12,27 @@
   ],
   "gallery-photos": [
     "assets/gallery-photos/gallery-action-wide.jpg",
+    "assets/gallery-photos/gallery-artistic.webp",
     "assets/gallery-photos/gallery-crowd-wide.jpg",
     "assets/gallery-photos/gallery-green-motion.jpg",
-    "assets/gallery-photos/gallery-orange-performance.jpg",
-    "assets/gallery-photos/gallery-artistic.webp",
     "assets/gallery-photos/gallery-hand-raised.webp",
     "assets/gallery-photos/gallery-headphones.webp",
     "assets/gallery-photos/gallery-laughing.webp",
     "assets/gallery-photos/gallery-leaning.webp",
     "assets/gallery-photos/gallery-mic-purple.webp",
     "assets/gallery-photos/gallery-moody.webp",
+    "assets/gallery-photos/gallery-orange-performance.jpg",
     "assets/gallery-photos/gallery-pointing.webp",
     "assets/gallery-photos/gallery-shark-1.webp",
     "assets/gallery-photos/gallery-shark-2.webp",
     "assets/gallery-photos/gallery-shark-3.webp"
   ],
   "gallery-videos": [
+    "assets/gallery-videos/web-00-sharkboydraft1.mp4",
     "assets/gallery-videos/web-01-performance.mp4",
     "assets/gallery-videos/web-02-prism.mp4",
     "assets/gallery-videos/web-03-snowrave.mp4",
     "assets/gallery-videos/web-04-underwater.mp4",
-    "assets/gallery-videos/web-05-godzilla.mp4",
-    "assets/gallery-videos/web-06-sharkboydraft1.mp4"
+    "assets/gallery-videos/web-05-godzilla.mp4"
   ]
 }
