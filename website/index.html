@@ -12,8 +12,8 @@
   <meta name="description" content="DJ Sharkboy, Singapore DJ, MC and event host for clubs, festivals, launches and corporate events." />
   <link rel="icon" href="assets/static/sharkboy-logo.png?v=3" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=14" />
-  <link rel="stylesheet" href="depth-intro.css?v=12" />
+  <link rel="stylesheet" href="style.css?v=17" />
+  <link rel="stylesheet" href="depth-intro.css?v=13" />
 </head>
 <body class="intro-locked depth-active">
 
@@ -44,7 +44,7 @@
       <h2 id="introSoundTitle">Start with<br>a taste.</h2>
       <p id="introSoundDescription">A short immersive entrance, cut from a live Sharkboy set.</p>
       <div class="intro-sound-actions">
-        <button type="button" class="intro-enter-sound" id="introEnterSound">Enter with sound <b>↗</b></button>
+        <button type="button" class="intro-enter-sound" id="introEnterSound">Enter with sound <b class="link-arrow" aria-hidden="true"></b></button>
         <button type="button" class="intro-enter-silent" id="introEnterSilent">Enter without sound</button>
       </div>
     </div>
@@ -61,7 +61,7 @@
       <li><a href="#gigs">Gigs</a></li>
       <li><a href="#gallery">Gallery</a></li>
       <li><button type="button" class="nav-experience" data-replay-experience>Experience</button></li>
-      <li><a href="#booking" class="btn-nav">Start a booking <span>↗</span></a></li>
+      <li><a href="#booking" class="btn-nav">Start a booking <span class="link-arrow" aria-hidden="true"></span></a></li>
     </ul>
     <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
   </nav>
@@ -72,12 +72,11 @@
   <button type="button" class="intro-replay-tab" data-replay-experience aria-label="Replay The Sharkboy Experience">
     <span>A taste</span>
     <b>The Sharkboy Experience</b>
-    <i aria-hidden="true">↻</i>
+    <i class="replay-icon" aria-hidden="true"></i>
   </button>
 
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-close" onclick="closeMobile()" aria-label="Close menu">&#10005;</button>
     <ul>
       <li><a href="#about" onclick="closeMobile()">About</a></li>
       <li><a href="#services" onclick="closeMobile()">Services</a></li>
@@ -128,7 +127,7 @@
         <div class="integrated-final">
           <span>Open format. All energy.</span>
           <h2>Your crowd.<br>My cue.</h2>
-          <a href="#booking">Book Sharkboy <b>↗</b></a>
+          <a href="#booking">Book Sharkboy <b class="link-arrow" aria-hidden="true"></b></a>
         </div>
 
         <div class="integrated-fog" aria-hidden="true"></div>
@@ -137,7 +136,7 @@
       <div class="integrated-scroll-guide" aria-hidden="true">
         <span>Scroll for the full experience</span>
         <i><b></b></i>
-        <em>↓</em>
+        <em class="scroll-arrow" aria-hidden="true"></em>
       </div>
       <div class="integrated-counter" aria-hidden="true">
         <span class="integrated-current">01</span><i></i><span>03</span>
@@ -173,8 +172,8 @@
           Beyond the decks, Sharkboy owns every segment of your event, including intimate dinner sets, VIP introductions, full-crowd raves, and corporate galas. His ability to read a room makes him as effective in a boardroom as he is in a club.
         </p>
         <div class="about-socials">
-          <a href="https://www.instagram.com/sharkboymusic" target="_blank" rel="noreferrer" class="social-pill">Instagram ↗</a>
-          <a href="https://soundcloud.com/djsharkboysg" target="_blank" rel="noreferrer" class="social-pill">SoundCloud ↗</a>
+          <a href="https://www.instagram.com/sharkboymusic" target="_blank" rel="noreferrer" class="social-pill">Instagram <span class="link-arrow" aria-hidden="true"></span></a>
+          <a href="https://soundcloud.com/djsharkboysg" target="_blank" rel="noreferrer" class="social-pill">SoundCloud <span class="link-arrow" aria-hidden="true"></span></a>
         </div>
       </div>
     </div>
@@ -283,10 +282,10 @@
     </div>
 
     <div class="carousel-wrap" id="photoCarouselWrap">
-      <button class="carousel-arrow left" id="photoArrowLeft" aria-label="Previous">&#8592;</button>
+      <button class="carousel-arrow left" id="photoArrowLeft" aria-label="Previous"></button>
       <!-- JS builds photo slides here from assets/gallery-photos/ -->
       <div class="carousel-track" id="photoTrack"></div>
-      <button class="carousel-arrow right" id="photoArrowRight" aria-label="Next">&#8594;</button>
+      <button class="carousel-arrow right" id="photoArrowRight" aria-label="Next"></button>
     </div>
     <div class="carousel-dots" id="photoDots"></div>
   </section>
@@ -304,17 +303,17 @@
     </div>
 
     <div class="carousel-wrap" id="videoCarouselWrap">
-      <button class="carousel-arrow left" id="videoArrowLeft" aria-label="Previous">&#8592;</button>
+      <button class="carousel-arrow left" id="videoArrowLeft" aria-label="Previous"></button>
       <!-- JS builds video slides here from assets/gallery-videos/ -->
       <div class="carousel-track" id="videoTrack"></div>
-      <button class="carousel-arrow right" id="videoArrowRight" aria-label="Next">&#8594;</button>
+      <button class="carousel-arrow right" id="videoArrowRight" aria-label="Next"></button>
     </div>
     <div class="carousel-dots" id="videoDots"></div>
   </section>
 
   <!-- VIDEO LIGHTBOX (shared, controlled by JS) -->
   <div class="lightbox" id="videoLightbox">
-    <button class="lightbox-close" id="lightboxClose" aria-label="Close video">&#10005;</button>
+    <button class="lightbox-close clean-close" id="lightboxClose" aria-label="Close video"></button>
     <p class="lightbox-status" aria-live="polite">Loading video</p>
     <video id="lightboxVideo" controls playsinline preload="auto"></video>
   </div>
@@ -328,11 +327,11 @@
         <p>From yacht parties and sunset celebrations to club nights and corporate events, book a high-energy DJ set, polished MC, or complete hosting package.</p>
         <div class="booking-contact-items">
           <a href="mailto:sharkboyrecords@gmail.com" class="contact-item">
-            <span class="contact-icon">✉</span>
+            <span class="contact-label">Email</span>
             <span>sharkboyrecords@gmail.com</span>
           </a>
           <a href="tel:+6597916968" class="contact-item">
-            <span class="contact-icon">✆</span>
+            <span class="contact-label">Phone</span>
             <span>+65 9791 6968</span>
           </a>
         </div>
@@ -403,14 +402,14 @@
         <a href="#booking">Book</a>
       </div>
       <div class="footer-socials">
-        <a href="https://www.instagram.com/sharkboymusic" target="_blank" rel="noreferrer">Instagram ↗</a>
-        <a href="https://soundcloud.com/djsharkboysg" target="_blank" rel="noreferrer">SoundCloud ↗</a>
+        <a href="https://www.instagram.com/sharkboymusic" target="_blank" rel="noreferrer">Instagram <span class="link-arrow" aria-hidden="true"></span></a>
+        <a href="https://soundcloud.com/djsharkboysg" target="_blank" rel="noreferrer">SoundCloud <span class="link-arrow" aria-hidden="true"></span></a>
       </div>
       <p class="footer-copy">&copy; 2026 DJ Sharkboy &middot; Xavier Tan &middot; Singapore</p>
     </div>
   </footer>
 
-  <script src="depth-intro.js?v=12"></script>
-  <script src="script.js?v=7"></script>
+  <script src="depth-intro.js?v=13"></script>
+  <script src="script.js?v=8"></script>
 </body>
 </html>

@@ -442,7 +442,6 @@ fetch('assets/manifest.json?v=' + Date.now())
         overlay.setAttribute('aria-label', `Play performance video ${index + 1}`);
         const btn = document.createElement('span');
         btn.setAttribute('aria-hidden', 'true');
-        btn.innerHTML = '&#9654;';
         overlay.appendChild(btn);
 
         overlay.addEventListener('click', () => openLightbox(src));
