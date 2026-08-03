@@ -10,6 +10,11 @@
   const replayButtons = document.querySelectorAll('[data-replay-experience]');
   const currentScene = document.querySelector('.integrated-current');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const embeddedBrowser = /Telegram|WhatsApp|FBAN|FBAV|FB_IAB|Instagram|Line\/|; wv\)|WebView/i.test(navigator.userAgent || '') ||
+    new URLSearchParams(window.location.search).get('embedded') === '1';
+
+  document.body.classList.toggle('embedded-browser', embeddedBrowser);
+  video.setAttribute('webkit-playsinline', '');
 
   document.querySelector('.integrated-story > span')?.remove();
 
@@ -23,6 +28,8 @@
   let renderedMouseY = 0;
   let frame = 0;
   let launchTimer = 0;
+  let embeddedPlaying = false;
+  let embeddedStartedAt = 0;
 
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
   const range = (value, start, end) => clamp((value - start) / (end - start));
@@ -69,12 +76,31 @@
     soundGate.classList.add('dismissed');
     soundGate.setAttribute('aria-hidden', 'true');
     if (!launch) return;
+    if (embeddedBrowser) startEmbeddedSequence();
     requestAnimationFrame(() => {
       document.body.classList.add('experience-launching');
       clearTimeout(launchTimer);
       launchTimer = window.setTimeout(() => {
         document.body.classList.remove('experience-launching');
       }, 1800);
+    });
+  }
+
+  function startEmbeddedSequence() {
+    embeddedPlaying = true;
+    embeddedStartedAt = performance.now();
+    target = 0;
+    progress = 0;
+    document.body.classList.remove('embedded-complete');
+    if (!frame) frame = requestAnimationFrame(render);
+  }
+
+  function recoverMutedPlayback() {
+    soundEnabled = false;
+    video.muted = true;
+    video.volume = 0.72;
+    return video.play().catch(() => {
+      document.body.classList.add('video-fallback');
     });
   }
 
@@ -85,8 +111,7 @@
     video.play()
       .then(() => fadeVolume(0.72, 1400))
       .catch(() => {
-        soundEnabled = false;
-        video.muted = true;
+        recoverMutedPlayback();
       })
       .finally(syncSoundToggle);
     dismissGate();
@@ -95,7 +120,9 @@
   function startSilently(launch = true) {
     soundEnabled = false;
     video.muted = true;
-    video.play().catch(() => {});
+    video.play().catch(() => {
+      document.body.classList.add('video-fallback');
+    });
     syncSoundToggle();
     dismissGate(launch !== false);
   }
@@ -109,6 +136,7 @@
     jumpToExperienceStart();
     target = 0;
     progress = 0;
+    embeddedPlaying = false;
     document.body.classList.remove('experience-entered');
     document.body.classList.remove('experience-launching');
     document.body.classList.add('intro-locked', 'depth-active');
@@ -141,6 +169,12 @@
   });
 
   function readScroll() {
+    if (embeddedBrowser) {
+      const introEnd = experience.offsetTop + experience.offsetHeight - 82;
+      document.body.classList.toggle('depth-active', window.scrollY < introEnd);
+      if (!frame) frame = requestAnimationFrame(render);
+      return;
+    }
     const max = experience.offsetHeight - window.innerHeight;
     target = reduceMotion.matches ? 0 : clamp((window.scrollY - experience.offsetTop) / max);
     const introEnd = experience.offsetTop + experience.offsetHeight - 82;
@@ -148,8 +182,13 @@
     if (!frame) frame = requestAnimationFrame(render);
   }
 
-  function render() {
-    progress += (target - progress) * 0.085;
+  function render(now = performance.now()) {
+    if (embeddedPlaying) {
+      progress = clamp((now - embeddedStartedAt) / 8200);
+      target = progress;
+    } else if (!embeddedBrowser) {
+      progress += (target - progress) * 0.085;
+    }
     renderedMouseX += (mouseX - renderedMouseX) * 0.08;
     renderedMouseY += (mouseY - renderedMouseY) * 0.08;
 
@@ -171,7 +210,13 @@
     const scene = progress < 0.33 ? '01' : progress < 0.7 ? '02' : '03';
     if (currentScene.textContent !== scene) currentScene.textContent = scene;
 
+    if (embeddedPlaying && progress >= 1) {
+      embeddedPlaying = false;
+      document.body.classList.add('embedded-complete');
+    }
+
     if (
+      embeddedPlaying ||
       Math.abs(target - progress) > 0.0005 ||
       Math.abs(mouseX - renderedMouseX) > 0.01 ||
       Math.abs(mouseY - renderedMouseY) > 0.01
@@ -185,7 +230,7 @@
   window.addEventListener('scroll', readScroll, { passive: true });
   window.addEventListener('resize', readScroll, { passive: true });
   window.addEventListener('pointermove', event => {
-    if (reduceMotion.matches) return;
+    if (reduceMotion.matches || embeddedBrowser) return;
     mouseX = ((event.clientX / window.innerWidth) - 0.5) * 2;
     mouseY = ((event.clientY / window.innerHeight) - 0.5) * 2;
     if (!frame) frame = requestAnimationFrame(render);
@@ -193,8 +238,11 @@
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) video.pause();
-    else video.play().catch(() => {});
+    else video.play().catch(() => document.body.classList.add('video-fallback'));
   });
+
+  video.addEventListener('playing', () => document.body.classList.remove('video-fallback'));
+  video.addEventListener('error', () => document.body.classList.add('video-fallback'));
 
   if (window.location.hash && window.location.hash !== '#hero') {
     const deepLinkTarget = document.getElementById(window.location.hash.slice(1));

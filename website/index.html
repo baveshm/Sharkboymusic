@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -10,10 +10,20 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <meta name="description" content="DJ Sharkboy, Singapore DJ, MC and event host for clubs, festivals, launches and corporate events." />
+  <meta name="theme-color" content="#050608" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://sharkboymusic.com/" />
+  <meta property="og:title" content="DJ Sharkboy | Singapore DJ · MC · Event Host" />
+  <meta property="og:description" content="Open-format DJ sets, polished hosting, and event energy shaped around the room." />
+  <meta property="og:image" content="https://sharkboymusic.com/assets/gallery-photos/gallery-action-wide.jpg" />
+  <meta property="og:image:width" content="1800" />
+  <meta property="og:image:height" content="1199" />
+  <meta property="og:image:alt" content="DJ Sharkboy performing live behind the decks" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="assets/static/sharkboy-logo.png?v=3" type="image/png" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=18" />
-  <link rel="stylesheet" href="depth-intro.css?v=14" />
+  <link rel="stylesheet" href="style.css?v=19" />
+  <link rel="stylesheet" href="depth-intro.css?v=15" />
 </head>
 <body class="intro-locked depth-active">
 
@@ -91,7 +101,7 @@
     <div class="integrated-stage">
       <div class="integrated-camera">
         <div class="integrated-film" aria-hidden="true">
-          <video id="introFilm" autoplay muted loop playsinline preload="auto" poster="assets/gallery-photos/gallery-orange-performance.jpg">
+          <video id="introFilm" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="assets/gallery-photos/gallery-orange-performance.jpg">
             <source src="assets/gallery-videos/web-01-performance.mp4" type="video/mp4" />
           </video>
         </div>
@@ -150,7 +160,7 @@
       <div class="about-image-wrap">
         <div class="about-media">
           <img class="about-poster" src="assets/gallery-photos/gallery-green-motion.jpg" alt="DJ Sharkboy performing behind the decks" />
-          <video class="about-video" autoplay muted loop playsinline preload="auto" poster="assets/gallery-photos/gallery-green-motion.jpg" aria-label="DJ Sharkboy performing live">
+          <video class="about-video" autoplay muted loop playsinline webkit-playsinline preload="metadata" poster="assets/gallery-photos/gallery-green-motion.jpg" aria-label="DJ Sharkboy performing live">
             <source src="assets/gallery-videos/web-02-prism.mp4" type="video/mp4">
           </video>
           <span class="about-light" aria-hidden="true"></span>
@@ -407,7 +417,7 @@
     </div>
   </footer>
 
-  <script src="depth-intro.js?v=13"></script>
+  <script src="depth-intro.js?v=14"></script>
   <script src="script.js?v=8"></script>
 </body>
 </html>
