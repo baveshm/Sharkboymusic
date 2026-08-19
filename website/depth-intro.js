@@ -9,6 +9,7 @@
   const soundToggleLabel = soundToggle.querySelector('b');
   const replayButtons = document.querySelectorAll('[data-replay-experience]');
   const currentScene = document.querySelector('.integrated-current');
+  const embeddedContinue = document.getElementById('embeddedContinue');
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const embeddedBrowser = /Telegram|WhatsApp|FBAN|FBAV|FB_IAB|Instagram|Line\/|; wv\)|WebView/i.test(navigator.userAgent || '') ||
     new URLSearchParams(window.location.search).get('embedded') === '1';
@@ -28,8 +29,7 @@
   let renderedMouseY = 0;
   let frame = 0;
   let launchTimer = 0;
-  let embeddedPlaying = false;
-  let embeddedStartedAt = 0;
+  let embeddedStep = 0;
 
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
   const range = (value, start, end) => clamp((value - start) / (end - start));
@@ -87,11 +87,28 @@
   }
 
   function startEmbeddedSequence() {
-    embeddedPlaying = true;
-    embeddedStartedAt = performance.now();
+    embeddedStep = 0;
     target = 0;
     progress = 0;
     document.body.classList.remove('embedded-complete');
+    embeddedContinue.textContent = 'Next moment';
+    if (!frame) frame = requestAnimationFrame(render);
+  }
+
+  function advanceEmbeddedSequence() {
+    if (!embeddedBrowser) return;
+    if (embeddedStep === 0) {
+      embeddedStep = 1;
+      target = 0.42;
+      embeddedContinue.textContent = 'Final moment';
+    } else if (embeddedStep === 1) {
+      embeddedStep = 2;
+      target = 0.86;
+      embeddedContinue.textContent = 'Explore the site';
+    } else {
+      document.getElementById('about')?.scrollIntoView({ block: 'start' });
+      return;
+    }
     if (!frame) frame = requestAnimationFrame(render);
   }
 
@@ -136,7 +153,7 @@
     jumpToExperienceStart();
     target = 0;
     progress = 0;
-    embeddedPlaying = false;
+    embeddedStep = 0;
     document.body.classList.remove('experience-entered');
     document.body.classList.remove('experience-launching');
     document.body.classList.add('intro-locked', 'depth-active');
@@ -149,6 +166,7 @@
 
   enterWithSound.addEventListener('click', startWithSound);
   enterSilently.addEventListener('click', startSilently);
+  embeddedContinue.addEventListener('click', advanceEmbeddedSequence);
   replayButtons.forEach(button => button.addEventListener('click', replayExperience));
   soundToggle.addEventListener('click', () => {
     soundEnabled = !soundEnabled;
@@ -182,13 +200,8 @@
     if (!frame) frame = requestAnimationFrame(render);
   }
 
-  function render(now = performance.now()) {
-    if (embeddedPlaying) {
-      progress = clamp((now - embeddedStartedAt) / 8200);
-      target = progress;
-    } else if (!embeddedBrowser) {
-      progress += (target - progress) * 0.085;
-    }
+  function render() {
+    progress += (target - progress) * (embeddedBrowser ? 0.065 : 0.085);
     renderedMouseX += (mouseX - renderedMouseX) * 0.08;
     renderedMouseY += (mouseY - renderedMouseY) * 0.08;
 
@@ -210,13 +223,7 @@
     const scene = progress < 0.33 ? '01' : progress < 0.7 ? '02' : '03';
     if (currentScene.textContent !== scene) currentScene.textContent = scene;
 
-    if (embeddedPlaying && progress >= 1) {
-      embeddedPlaying = false;
-      document.body.classList.add('embedded-complete');
-    }
-
     if (
-      embeddedPlaying ||
       Math.abs(target - progress) > 0.0005 ||
       Math.abs(mouseX - renderedMouseX) > 0.01 ||
       Math.abs(mouseY - renderedMouseY) > 0.01

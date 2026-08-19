@@ -43,7 +43,8 @@ body.intro-locked{overflow:hidden}
 .embedded-browser .integrated-stage{position:relative;height:100dvh;min-height:100svh}
 .embedded-browser .integrated-camera{transform:none}
 .embedded-browser .integrated-scroll-guide{display:none}
-.embedded-complete .intro-sound-toggle{opacity:0!important;visibility:hidden!important}
+.embedded-continue{display:none;position:absolute;z-index:30;left:max(20px,env(safe-area-inset-left));bottom:max(18px,env(safe-area-inset-bottom));min-height:42px;padding:0 16px;border:1px solid rgba(255,255,255,.62);background:rgba(5,6,8,.6);backdrop-filter:blur(12px);color:#fff;font-size:.58rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.embedded-browser.experience-entered .embedded-continue{display:block}
 .video-fallback .integrated-film{background:#050608 url('assets/gallery-photos/gallery-orange-performance.jpg') 18% center/cover no-repeat}
 .video-fallback .integrated-film video{opacity:0}
 
