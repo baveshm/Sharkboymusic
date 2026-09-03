@@ -30,6 +30,9 @@
   let frame = 0;
   let launchTimer = 0;
   let embeddedStep = 0;
+  let positionControlsVolume = false;
+
+  const fullVolume = 0.72;
 
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
   const range = (value, start, end) => clamp((value - start) / (end - start));
@@ -114,8 +117,9 @@
 
   function recoverMutedPlayback() {
     soundEnabled = false;
+    positionControlsVolume = false;
     video.muted = true;
-    video.volume = 0.72;
+    video.volume = fullVolume;
     return video.play().catch(() => {
       document.body.classList.add('video-fallback');
     });
@@ -123,10 +127,11 @@
 
   function startWithSound() {
     soundEnabled = true;
+    positionControlsVolume = false;
     video.muted = false;
     video.volume = 0;
     video.play()
-      .then(() => fadeVolume(0.72, 1400))
+      .then(() => fadeVolume(fullVolume, 1400))
       .catch(() => {
         recoverMutedPlayback();
       })
@@ -136,6 +141,7 @@
 
   function startSilently(launch = true) {
     soundEnabled = false;
+    positionControlsVolume = false;
     video.muted = true;
     video.play().catch(() => {
       document.body.classList.add('video-fallback');
@@ -147,8 +153,9 @@
   function replayExperience() {
     ++fadeRequest;
     soundEnabled = false;
+    positionControlsVolume = false;
     video.muted = true;
-    video.volume = 0.72;
+    video.volume = fullVolume;
     video.currentTime = 0;
     jumpToExperienceStart();
     target = 0;
@@ -171,20 +178,52 @@
   soundToggle.addEventListener('click', () => {
     soundEnabled = !soundEnabled;
     if (soundEnabled) {
+      positionControlsVolume = false;
       video.muted = false;
       video.volume = 0;
       video.play()
-        .then(() => fadeVolume(0.72, 900))
+        .then(() => fadeVolume(fullVolume, 900))
         .catch(() => {
           soundEnabled = false;
           video.muted = true;
           syncSoundToggle();
         });
     } else {
+      positionControlsVolume = false;
       fadeVolume(0, 500, true);
     }
     syncSoundToggle();
   });
+
+  function syncExperienceVolume() {
+    if (!soundEnabled) return;
+
+    const rect = experience.getBoundingClientRect();
+    const viewportExit = embeddedBrowser
+      ? clamp(-rect.top / Math.max(window.innerHeight * 0.72, 1))
+      : 0;
+    const sceneExit = range(progress, 0.76, 0.98);
+    const fadeAmount = Math.max(viewportExit, sceneExit);
+
+    if (fadeAmount > 0.002) {
+      if (!positionControlsVolume) {
+        ++fadeRequest;
+        positionControlsVolume = true;
+      }
+      video.muted = false;
+      video.volume = fullVolume * (1 - fadeAmount);
+      if (fadeAmount >= 0.999 && !video.paused) video.pause();
+      return;
+    }
+
+    if (positionControlsVolume) {
+      positionControlsVolume = false;
+      video.muted = false;
+      video.play()
+        .then(() => fadeVolume(fullVolume, 320))
+        .catch(() => document.body.classList.add('video-fallback'));
+    }
+  }
 
   function readScroll() {
     if (embeddedBrowser) {
@@ -216,9 +255,7 @@
     root.style.setProperty('--d-mx', renderedMouseX.toFixed(3));
     root.style.setProperty('--d-my', renderedMouseY.toFixed(3));
 
-    if (soundEnabled && progress > 0.76) {
-      video.volume = 0.72 * (1 - range(progress, 0.76, 0.98));
-    }
+    syncExperienceVolume();
 
     const scene = progress < 0.33 ? '01' : progress < 0.7 ? '02' : '03';
     if (currentScene.textContent !== scene) currentScene.textContent = scene;
